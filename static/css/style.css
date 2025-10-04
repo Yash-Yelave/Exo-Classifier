@@ -5,6 +5,17 @@
     font-family: 'Inter', sans-serif;
 }
 
+/* ======================================== */
+/* NEW: Universal Content Block Style       */
+/* ======================================== */
+.content-block {
+    background: rgba(18, 18, 38, 0.6);   /* Semi-transparent dark purple background */
+    border: 1px solid rgba(136, 71, 255, 0.3); /* Glowing purple border */
+    backdrop-filter: blur(10px);        /* Frosted glass effect */
+    border-radius: 0.75rem; /* 12px rounded corners */
+}
+
+
 body {
     background: #07000c;
     overflow-x: hidden;
@@ -33,147 +44,26 @@ body {
     50% { opacity: 1; }
 }
 
-/* Individual Star Positions and Animations (Unchanged) */
-.star:nth-child(1) { 
-    width: 1px; 
-    height: 1px; 
-    top: 20%; 
-    left: 10%; 
-    animation-duration: 3s; 
-}
+/* Individual Star Positions and Animations */
+.star:nth-child(1) { width: 1px; height: 1px; top: 20%; left: 10%; animation-duration: 3s; }
+.star:nth-child(2) { width: 2px; height: 2px; top: 40%; left: 30%; animation-duration: 4s; animation-delay: 1s; }
+.star:nth-child(3) { width: 1px; height: 1px; top: 60%; left: 50%; animation-duration: 5s; animation-delay: 0.5s; }
+.star:nth-child(4) { width: 2px; height: 2px; top: 80%; left: 70%; animation-duration: 3.5s; animation-delay: 2s; }
+.star:nth-child(5) { width: 1px; height: 1px; top: 30%; left: 80%; animation-duration: 4.5s; animation-delay: 1.5s; }
+.star:nth-child(6) { width: 1px; height: 1px; top: 10%; left: 60%; animation-duration: 3s; animation-delay: 0.8s; }
+.star:nth-child(7) { width: 2px; height: 2px; top: 70%; left: 20%; animation-duration: 5s; animation-delay: 2.5s; }
+.star:nth-child(8) { width: 1px; height: 1px; top: 50%; left: 90%; animation-duration: 4s; animation-delay: 1.2s; }
+.star:nth-child(9) { width: 1px; height: 1px; top: 15%; left: 40%; animation-duration: 3.5s; animation-delay: 0.3s; }
+.star:nth-child(10) { width: 2px; height: 2px; top: 85%; left: 55%; animation-duration: 4.5s; animation-delay: 1.8s; }
+.star:nth-child(11) { width: 1px; height: 1px; top: 25%; left: 75%; animation-duration: 3s; animation-delay: 0.6s; }
+.star:nth-child(12) { width: 1px; height: 1px; top: 65%; left: 15%; animation-duration: 5s; animation-delay: 2.2s; }
+.star:nth-child(13) { width: 2px; height: 2px; top: 45%; left: 65%; animation-duration: 4s; animation-delay: 1.4s; }
+.star:nth-child(14) { width: 1px; height: 1px; top: 5%; left: 25%; animation-duration: 3.5s; animation-delay: 0.9s; }
+.star:nth-child(15) { width: 1px; height: 1px; top: 90%; left: 85%; animation-duration: 4.5s; animation-delay: 2.1s; }
 
-.star:nth-child(2) { 
-    width: 2px; 
-    height: 2px; 
-    top: 40%; 
-    left: 30%; 
-    animation-duration: 4s; 
-    animation-delay: 1s; 
-}
 
-.star:nth-child(3) { 
-    width: 1px; 
-    height: 1px; 
-    top: 60%; 
-    left: 50%; 
-    animation-duration: 5s; 
-    animation-delay: 0.5s; 
-}
-
-.star:nth-child(4) { 
-    width: 2px; 
-    height: 2px; 
-    top: 80%; 
-    left: 70%; 
-    animation-duration: 3.5s; 
-    animation-delay: 2s; 
-}
-
-.star:nth-child(5) { 
-    width: 1px; 
-    height: 1px; 
-    top: 30%; 
-    left: 80%; 
-    animation-duration: 4.5s; 
-    animation-delay: 1.5s; 
-}
-
-.star:nth-child(6) { 
-    width: 1px; 
-    height: 1px; 
-    top: 10%; 
-    left: 60%; 
-    animation-duration: 3s; 
-    animation-delay: 0.8s; 
-}
-
-.star:nth-child(7) { 
-    width: 2px; 
-    height: 2px; 
-    top: 70%; 
-    left: 20%; 
-    animation-duration: 5s; 
-    animation-delay: 2.5s; 
-}
-
-.star:nth-child(8) { 
-    width: 1px; 
-    height: 1px; 
-    top: 50%; 
-    left: 90%; 
-    animation-duration: 4s; 
-    animation-delay: 1.2s; 
-}
-
-.star:nth-child(9) { 
-    width: 1px; 
-    height: 1px; 
-    top: 15%; 
-    left: 40%; 
-    animation-duration: 3.5s; 
-    animation-delay: 0.3s; 
-}
-
-.star:nth-child(10) { 
-    width: 2px; 
-    height: 2px; 
-    top: 85%; 
-    left: 55%; 
-    animation-duration: 4.5s; 
-    animation-delay: 1.8s; 
-}
-
-.star:nth-child(11) { 
-    width: 1px; 
-    height: 1px; 
-    top: 25%; 
-    left: 75%; 
-    animation-duration: 3s; 
-    animation-delay: 0.6s; 
-}
-
-.star:nth-child(12) { 
-    width: 1px; 
-    height: 1px; 
-    top: 65%; 
-    left: 15%; 
-    animation-duration: 5s; 
-    animation-delay: 2.2s; 
-}
-
-.star:nth-child(13) { 
-    width: 2px; 
-    height: 2px; 
-    top: 45%; 
-    left: 65%; 
-    animation-duration: 4s; 
-    animation-delay: 1.4s; 
-}
-
-.star:nth-child(14) { 
-    width: 1px; 
-    height: 1px; 
-    top: 5%; 
-    left: 25%; 
-    animation-duration: 3.5s; 
-    animation-delay: 0.9s; 
-}
-
-.star:nth-child(15) { 
-    width: 1px; 
-    height: 1px; 
-    top: 90%; 
-    left: 85%; 
-    animation-duration: 4.5s; 
-    animation-delay: 2.1s; 
-}
-
-/* ------------------------------------------- */
 /* Hero Image Styles for Scroll Effect */
-/* ------------------------------------------- */
-
 .hero-image-container {
-    /* Set the section to be full viewport height and width */
     height: 100vh;
     width: 100%;
     position: relative;
@@ -184,19 +74,15 @@ body {
 .hero-image-zoom-layer {
     height: 100%;
     width: 100%;
-    position: fixed; /* Fixed position for parallax */
+    position: fixed;
     top: 0;
     left: 0;
-    
-    /* UPDATED: Removed gradient overlay, set to cover for full screen image */
     background: url('../img/placeholder_earth.jpg') no-repeat center center; 
     background-size: cover; 
-    background-position: center center; 
-    
-    transform: scale(1); /* Initial scale */
+    transform: scale(1);
     transform-origin: center;
-    transition: background-size 0.2s ease-out; /* Smooth transition for non-JS browsers */
-    will-change: transform, opacity; /* Hint to browser for performance */
+    transition: background-size 0.2s ease-out;
+    will-change: transform, opacity;
 }
 
 .hero-content {
@@ -213,19 +99,17 @@ body {
 
 /* Gradient Text Effect */
 .gradient-text {
-    /* Existing gradient properties */
     background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    
-    /* ADD THIS LINE: Soft, dark shadow for depth */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
 }
 
-/* Card Hover Effects (Unchanged) */
+/* Card Hover Effects - UPDATED */
 .card-hover {
     transition: all 0.3s ease;
+    /* REMOVED background, border, etc. They are now in .content-block */
 }
 
 .card-hover:hover {
@@ -233,7 +117,7 @@ body {
     box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
 }
 
-/* Cosmic Input Styling (Unchanged) */
+/* Cosmic Input Styling */
 .input-cosmic {
     background: rgba(92, 49, 127, 0.2);
     border: 1px solid rgba(168, 85, 247, 0.3);
@@ -247,24 +131,20 @@ body {
     outline: none;
 }
 
-/* Primary Button Gradient (Unchanged) */
+/* Button Gradients */
 .btn-gradient-primary {
     background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
     transition: all 0.3s ease;
 }
-
 .btn-gradient-primary:hover {
     background: linear-gradient(135deg, #6d28d9 0%, #db2777 100%);
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
 }
-
-/* Secondary Button Gradient (Unchanged) */
 .btn-gradient-secondary {
     background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
     transition: all 0.3s ease;
 }
-
 .btn-gradient-secondary:hover {
     background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%);
     transform: translateY(-2px);
@@ -277,37 +157,29 @@ body {
     z-index: 1;
 }
 
-/* Result Card Animation (Unchanged) */
+/* Result Card Animation */
 .result-card {
     animation: fadeInScale 0.5s ease-out;
 }
 
 @keyframes fadeInScale {
-    0% {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
 }
 
-/* Smooth Scroll Behavior (Unchanged) */
+/* Smooth Scroll Behavior */
 html {
     scroll-behavior: smooth;
 }
 
-/* Loading State for Form Submission (Unchanged) */
+/* Loading State for Form Submission */
 .form-loading {
     pointer-events: none;
     opacity: 0.6;
 }
-
 .form-loading button {
     position: relative;
 }
-
 .form-loading button::after {
     content: '';
     position: absolute;
@@ -328,7 +200,7 @@ html {
     100% { transform: rotate(360deg); }
 }
 
-/* NEW: Tab and Sample Card Styles (Unchanged) */
+/* Tab and Sample Card Styles */
 .tab-button {
     padding: 0.75rem 1.5rem;
     color: #9ca3af; 
@@ -337,16 +209,13 @@ html {
     transition: all 0.3s ease;
     border-bottom: 2px solid transparent;
 }
-
 .tab-button:hover {
     color: #d1d5db; 
 }
-
 .tab-active {
     color: #a855f7; 
     border-bottom-color: #a855f7;
 }
-
 .sample-card {
     padding: 1.5rem;
     border-radius: 0.75rem;
@@ -355,12 +224,10 @@ html {
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
 .sample-card:hover {
     transform: scale(1.02);
     box-shadow: 0 10px 20px rgba(168, 85, 247, 0.15);
 }
-
 .sample-card.selected {
     border-color: #34d399; 
     background: rgba(52, 211, 153, 0.1); 
@@ -372,16 +239,14 @@ html {
      box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
 }
 
-/* Responsive Adjustments (Unchanged) */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .gradient-text {
         font-size: 2.5rem;
     }
-    
     .star {
         display: none;
     }
-    
     .star:nth-child(1),
     .star:nth-child(3),
     .star:nth-child(5),
