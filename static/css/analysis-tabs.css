@@ -1,10 +1,10 @@
 /* =========================
-ANALYSIS SECTION STYLING (COMPACT VERSION)
+ANALYSIS SECTION STYLING
 ============================== */
 .analysis-container {
     font-family: 'Inter', sans-serif;
     color: #e0e0e0;
-    padding: 25px 20px; /* REDUCED */
+    padding: 40px 20px;
     max-width: 1200px;
     margin: 40px auto;
     border-radius: 12px;
@@ -15,9 +15,9 @@ ANALYSIS SECTION STYLING (COMPACT VERSION)
 
 .section-title {
     text-align: center;
-    font-size: 1.75rem; /* REDUCED */
+    font-size: 2rem;
     font-weight: 600;
-    margin-bottom: 20px; /* REDUCED */
+    margin-bottom: 30px;
     background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -35,13 +35,13 @@ ANALYSIS SECTION STYLING (COMPACT VERSION)
     background-color: rgba(0, 0, 0, 0.3);
     padding: 6px;
     border-radius: 30px;
-    margin-bottom: 20px; /* REDUCED */
+    margin-bottom: 25px;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tab-btn {
-    padding: 8px 20px; /* REDUCED */
-    font-size: 0.9rem; /* REDUCED */
+    padding: 10px 25px;
+    font-size: 1rem;
     font-weight: 500;
     color: #b0b0b0;
     background: transparent;
@@ -67,7 +67,7 @@ ANALYSIS SECTION STYLING (COMPACT VERSION)
 /* Tab Content Styling */
 .tab-content-wrapper {
     width: 100%;
-    padding: 15px; /* REDUCED */
+    padding: 20px;
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.2);
 }
@@ -82,27 +82,37 @@ ANALYSIS SECTION STYLING (COMPACT VERSION)
 }
 
 .tab-pane h3 {
-    font-size: 1.25rem; /* REDUCED */
-    margin-bottom: 8px; /* REDUCED */
+    font-size: 1.5rem;
+    margin-bottom: 10px;
     color: #fff;
 }
 
 .tab-pane p {
-    font-size: 0.9rem; /* REDUCED */
-    line-height: 1.5; /* REDUCED */
+    font-size: 1rem;
+    line-height: 1.6;
     color: #c0c0c0;
     max-width: 800px;
-    margin-bottom: 0;
 }
 
-.chart-canvas-container {
-    position: relative;
-    height: 320px; /* REDUCED - This is the most impactful change */
-    width: 100%;
-    margin-top: 15px; /* REDUCED */
+.placeholder-content {
+    margin-top: 20px;
+    padding: 40px;
+    text-align: center;
+    border: 2px dashed rgba(136, 71, 255, 0.4);
+    border-radius: 8px;
+    background-color: rgba(136, 71, 255, 0.05);
+    color: #a855f7;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* ADD THIS to analysis-tabs.css */
+.chart-canvas-container {
+    position: relative;
+    height: 400px; /* Adjust height as needed */
+    width: 100%;
+    margin-top: 20px;
 }
