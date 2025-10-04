@@ -2,7 +2,39 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Tab Switching Logic ---
+    // --- Hero Image Scroll Effect ---
+    const heroImage = document.getElementById('hero-image-zoom');
+    const heroSection = document.getElementById('hero-image-section');
+    
+    function handleHeroParallax() {
+        if (!heroImage || !heroSection) return;
+
+        const scrollPos = window.pageYOffset;
+        const heroHeight = heroSection.offsetHeight;
+        
+        // Only apply effect while the scroll is within the bounds of the hero section height
+        if (scrollPos <= heroHeight) {
+            // Calculate scale: starts at 1, goes up slightly (zoom in)
+            const scaleFactor = 1 + (scrollPos * 0.0003); // Adjust 0.0003 for speed
+            
+            // Calculate opacity: starts at 1, fades out quickly
+            const opacityFactor = 1 - (scrollPos / (heroHeight * 0.7)); // Fade out over 70% of the section
+            
+            heroImage.style.transform = `scale(${scaleFactor})`;
+            heroImage.style.opacity = `${opacityFactor}`;
+            heroImage.style.position = 'fixed';
+            
+        } else {
+            // Hide the hero image entirely once the user scrolls past its container height
+             heroImage.style.opacity = '0';
+             heroImage.style.position = 'absolute';
+        }
+
+        // Apply Parallax for existing stars
+        parallaxStars(); 
+    }
+    
+    // --- Tab Switching Logic (Unchanged) ---
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
     
@@ -34,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // --- Sample Card Selection Logic ---
+    // --- Sample Card Selection Logic (Unchanged) ---
     const sampleCards = document.querySelectorAll('.sample-card');
     sampleCards.forEach(card => {
         card.addEventListener('click', function() {
@@ -48,13 +80,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- Core Sample Handler Function ---
+    // --- Core Sample Handler Function (Unchanged) ---
     function handleSampleSelection(selectedCard) {
         const type = selectedCard.getAttribute('data-type');
         const sampleName = selectedCard.getAttribute('data-sample-name');
 
-        // 1. Update Chart (forces light_curve_chart.js to re-fetch and draw)
-        // We call the function defined in light_curve_chart.js
+        // 1. Update Chart
         window.renderSelectedChart(type, sampleName); 
         
         // 2. Fetch and Display Prediction Result
@@ -69,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // --- Helper function to dynamically display the result card in the Sample tab ---
+    // --- Helper function to dynamically display the result card in the Sample tab (Unchanged) ---
     function displaySampleResult(result, confidence) {
         const display = document.getElementById('sample-result-display');
         
@@ -105,17 +136,29 @@ document.addEventListener('DOMContentLoaded', function() {
     if (defaultSelectedCard) {
         handleSampleSelection(defaultSelectedCard);
     }
+    
+    // --- Scroll Event Handler (Updated) ---
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                handleHeroParallax(); 
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+    
+    // Manually trigger the parallax on load to set initial state
+    handleHeroParallax();
 
-
-    // --- Original Form Validation and Submission Handling (Only for Upload Your Own tab) ---
+    // --- Original Form Validation and Submission Handling (Only for Upload Your Own tab - Unchanged) ---
     const form = document.getElementById('exoplanet-form');
     
     if (form) {
         form.addEventListener('submit', function(e) {
-            // Add loading state
             form.classList.add('form-loading');
             
-            // Validate all inputs are filled (Original logic remains)
             const inputs = form.querySelectorAll('input[required]');
             let allValid = true;
             
@@ -136,7 +179,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Real-time input validation (rest of form logic remains)
         const inputs = form.querySelectorAll('input[type="number"]');
         inputs.forEach(input => {
             input.addEventListener('input', function() {
@@ -153,10 +195,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // --- Sample Data Fill Button (moved inside the upload-own tab) ---
+    // --- Sample Data Fill Button (Unchanged) ---
     createSampleDataButton();
-
-    // ... (All other original functions like smooth scroll, parallax, and helper functions remain) ...
 
     /**
      * Create sample data fill button for demo
@@ -174,32 +214,29 @@ document.addEventListener('DOMContentLoaded', function() {
         sampleButton.textContent = '✨ Fill Sample Data';
         sampleButton.addEventListener('click', fillSampleData);
         
-        // Find the 'upload-own' container to insert the button
         const uploadOwnTab = document.getElementById('upload-own');
         if (uploadOwnTab) {
-            // Insert after the title block, before the form
             uploadOwnTab.insertBefore(buttonContainer, uploadOwnTab.querySelector('form'));
         }
     }
 
     /**
-     * Fill form with sample exoplanet data (using the confirmed sample data)
+     * Fill form with sample exoplanet data (Unchanged)
      */
     function fillSampleData() {
-        // Using the same confirmed sample data from app.py
         const sampleData = {
             koi_period: 9.488036,
             koi_duration: 2.783,
             koi_prad: 1.94,
             koi_depth: 344.6,
-            koi_slogg: 4.467, // Corrected from 5778 (stellar temperature) to Log g 
+            koi_slogg: 4.467,
             koi_srad: 0.927,
             koi_impact: 0.146,
             koi_insol: 93.59,
             koi_teq: 707.2,
             koi_score: 0.946,
-            koi_steff: 5778, // Stellar Temperature (using a more appropriate value from earlier context)
-            koi_model_snr: 67.6, // SNR
+            koi_steff: 5778, 
+            koi_model_snr: 67.6, 
             koi_time0bk: 170.538,
             koi_dor: 0.089,
             koi_incl: 89.37
@@ -221,10 +258,41 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification('Sample data loaded successfully!', 'info');
     }
 
-    // ... (The rest of the original helper functions) ...
-    function showNotification(message, type = 'info') { /* ... */ }
-    function parallaxStars() { /* ... */ }
-    function addMoreStars(count = 20) { /* ... */ }
+    /**
+     * Parallax effect for stars (Unchanged)
+     */
+    function parallaxStars() {
+        const scrolled = window.pageYOffset;
+        const stars = document.querySelectorAll('.star');
+        
+        stars.forEach((star, index) => {
+            const speed = 0.1 + (index % 3) * 0.05;
+            const yPos = -(scrolled * speed); 
+            star.style.transform = `translateY(${yPos}px)`;
+        });
+    }
+
+    /**
+     * Add dynamic star generation (optional enhancement - Unchanged)
+     */
+    function addMoreStars(count = 20) {
+        const starsContainer = document.querySelector('.stars');
+        if (!starsContainer) return;
+        
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = `${Math.random() * 2 + 1}px`;
+            star.style.height = star.style.width;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            starsContainer.appendChild(star);
+        }
+    }
+
+    // Add more stars on load for richer background
     addMoreStars(30);
 
 });

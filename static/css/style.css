@@ -6,7 +6,7 @@
 }
 
 body {
-    background: #12002f;
+    background: #07000c;
     overflow-x: hidden;
 }
 
@@ -168,15 +168,62 @@ body {
     animation-delay: 2.1s; 
 }
 
+/* ------------------------------------------- */
+/* Hero Image Styles for Scroll Effect */
+/* ------------------------------------------- */
+
+.hero-image-container {
+    /* Set the section to be full viewport height and width */
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden; 
+    z-index: 10; 
+}
+
+.hero-image-zoom-layer {
+    height: 100%;
+    width: 100%;
+    position: fixed; /* Fixed position for parallax */
+    top: 0;
+    left: 0;
+    
+    /* UPDATED: Removed gradient overlay, set to cover for full screen image */
+    background: url('../img/placeholder_earth.jpg') no-repeat center center; 
+    background-size: cover; 
+    background-position: center center; 
+    
+    transform: scale(1); /* Initial scale */
+    transform-origin: center;
+    transition: background-size 0.2s ease-out; /* Smooth transition for non-JS browsers */
+    will-change: transform, opacity; /* Hint to browser for performance */
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    z-index: 11;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+
 /* Gradient Text Effect */
 .gradient-text {
+    /* Existing gradient properties */
     background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    
+    /* ADD THIS LINE: Soft, dark shadow for depth */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
 }
 
-/* Card Hover Effects */
+/* Card Hover Effects (Unchanged) */
 .card-hover {
     transition: all 0.3s ease;
 }
@@ -186,7 +233,7 @@ body {
     box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
 }
 
-/* Cosmic Input Styling */
+/* Cosmic Input Styling (Unchanged) */
 .input-cosmic {
     background: rgba(92, 49, 127, 0.2);
     border: 1px solid rgba(168, 85, 247, 0.3);
@@ -200,7 +247,7 @@ body {
     outline: none;
 }
 
-/* Primary Button Gradient */
+/* Primary Button Gradient (Unchanged) */
 .btn-gradient-primary {
     background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
     transition: all 0.3s ease;
@@ -212,7 +259,7 @@ body {
     box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
 }
 
-/* Secondary Button Gradient */
+/* Secondary Button Gradient (Unchanged) */
 .btn-gradient-secondary {
     background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
     transition: all 0.3s ease;
@@ -230,7 +277,7 @@ body {
     z-index: 1;
 }
 
-/* Result Card Animation */
+/* Result Card Animation (Unchanged) */
 .result-card {
     animation: fadeInScale 0.5s ease-out;
 }
@@ -246,12 +293,12 @@ body {
     }
 }
 
-/* Smooth Scroll Behavior */
+/* Smooth Scroll Behavior (Unchanged) */
 html {
     scroll-behavior: smooth;
 }
 
-/* Loading State for Form Submission */
+/* Loading State for Form Submission (Unchanged) */
 .form-loading {
     pointer-events: none;
     opacity: 0.6;
@@ -281,13 +328,10 @@ html {
     100% { transform: rotate(360deg); }
 }
 
-/* ------------------------------------------- */
-/* NEW: Tab and Sample Card Styles */
-/* ------------------------------------------- */
-
+/* NEW: Tab and Sample Card Styles (Unchanged) */
 .tab-button {
     padding: 0.75rem 1.5rem;
-    color: #9ca3af; /* gray-400 */
+    color: #9ca3af; 
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -295,19 +339,19 @@ html {
 }
 
 .tab-button:hover {
-    color: #d1d5db; /* gray-300 */
+    color: #d1d5db; 
 }
 
 .tab-active {
-    color: #a855f7; /* purple-400 */
+    color: #a855f7; 
     border-bottom-color: #a855f7;
 }
 
 .sample-card {
     padding: 1.5rem;
     border-radius: 0.75rem;
-    border: 2px solid rgba(168, 85, 247, 0.15); /* Light border */
-    background: rgba(43, 0, 80, 0.4); /* Dark purple background */
+    border: 2px solid rgba(168, 85, 247, 0.15); 
+    background: rgba(43, 0, 80, 0.4); 
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -318,17 +362,17 @@ html {
 }
 
 .sample-card.selected {
-    border-color: #34d399; /* emerald-400 */
-    background: rgba(52, 211, 153, 0.1); /* Light green tint */
+    border-color: #34d399; 
+    background: rgba(52, 211, 153, 0.1); 
     box-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
 }
 .sample-card[data-type="false_positive"].selected {
-     border-color: #fbbf24; /* amber-400 */
-     background: rgba(251, 191, 36, 0.1); /* Light amber tint */
+     border-color: #fbbf24; 
+     background: rgba(251, 191, 36, 0.1); 
      box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
 }
 
-/* Responsive Adjustments */
+/* Responsive Adjustments (Unchanged) */
 @media (max-width: 768px) {
     .gradient-text {
         font-size: 2.5rem;
