@@ -1,0 +1,14 @@
+{
+  "model_path": "c:\\Users\\siddh\\Downloads\\NASA  HAc\\models\\combined_xgb.json",
+  "params": {
+    "n_estimators": 500,
+    "max_depth": 6,
+    "learning_rate": 0.05,
+    "eval_metric": "auc",
+    "best_iteration": 49
+  },
+  "results": {
+    "test_auc": 0.9934185755961101,
+    "test_accuracy": 0.8712103407755581
+  }
+}

@@ -3,34 +3,71 @@ Flask Application for Exoplanet Classifier
 File: app.py
 """
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, send_file
 import numpy as np
 import pickle
 import os
+import json
+import joblib
+import xgboost as xgb
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
 
 # Load the trained model (assumes you have a saved model)
 # Replace this with your actual model loading logic
-MODEL_PATH = 'models/exoplanet_classifier.pkl'
+MODEL_JOBLIB = 'models/combined_xgb_tuned.joblib'
+MODEL_JSON = 'models/combined_xgb_tuned.json'
+METRICS_JSON = 'models/combined_metrics.json'
 
 def load_model():
-    """Load the trained ML model"""
+    """Load trained model: try joblib (sklearn wrapper) then xgboost JSON booster, fallback to legacy pickle."""
     try:
-        if os.path.exists(MODEL_PATH):
-            with open(MODEL_PATH, 'rb') as f:
-                model = pickle.load(f)
-            return model
-        else:
-            print(f"Warning: Model file not found at {MODEL_PATH}")
-            return None
+        # Prefer joblib-wrapped sklearn/xgboost model
+        if os.path.exists(MODEL_JOBLIB):
+            try:
+                model = joblib.load(MODEL_JOBLIB)
+                return model
+            except Exception as e:
+                print(f"Error loading joblib model: {e}")
+        # Fallback to XGBoost Booster saved as JSON
+        if os.path.exists(MODEL_JSON):
+            try:
+                booster = xgb.Booster()
+                booster.load_model(MODEL_JSON)
+                return booster
+            except Exception as e:
+                print(f"Error loading xgboost json model: {e}")
+        # Legacy pickle path (keeps compatibility with existing code)
+        legacy_path = 'models/exoplanet_classifier.pkl'
+        if os.path.exists(legacy_path):
+            try:
+                with open(legacy_path, 'rb') as f:
+                    model = pickle.load(f)
+                return model
+            except Exception as e:
+                print(f"Error loading pickle model: {e}")
+        print(f"Warning: No model file found at {MODEL_JOBLIB}, {MODEL_JSON} or {legacy_path}")
+        return None
     except Exception as e:
         print(f"Error loading model: {e}")
         return None
 
-# Load model on startup
+def load_metrics():
+    """Load evaluation metrics JSON if present."""
+    if os.path.exists(METRICS_JSON):
+        try:
+            with open(METRICS_JSON, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error reading metrics file: {e}")
+            return {}
+    return {}
+
+# Load model and metrics on startup
 model = load_model()
+metrics = load_metrics()
+
 
 # --- Sample Feature Data for API Demo ---
 # These are dummy inputs that represent typical values for each case.
@@ -74,45 +111,43 @@ SAMPLE_FALSE_POSITIVE_DATA = [
 def predict_exoplanet(features):
     """
     Make prediction using the loaded model
-    
-    Args:
-        features: List or array of 15 feature values
-    
-    Returns:
-        tuple: (prediction_label, confidence_score)
+    Returns: (label_str, confidence_score_percent)
     """
     try:
         if model is None:
-            # Mock prediction based on input heuristics if model is missing
+            # fallback mock prediction
             period = features[0] if len(features) > 0 else 0
             depth = features[3] if len(features) > 3 else 0
-            
-            # Simplified mock logic for robustness
             if depth > 100 and period > 5:
                 confidence = np.random.uniform(90, 99)
                 prediction = 1
             else:
-                 confidence = np.random.uniform(70, 80)
-                 prediction = 0
+                confidence = np.random.uniform(70, 80)
+                prediction = 0
         else:
-            # Actual model prediction
-            features_array = np.array(features).reshape(1, -1)
-            prediction = model.predict(features_array)[0]
-            
+            arr = np.array(features).reshape(1, -1)
+            # sklearn-like estimator
             if hasattr(model, 'predict_proba'):
-                proba = model.predict_proba(features_array)[0]
-                confidence = max(proba) * 100
+                proba = model.predict_proba(arr)[0]
+                prediction = int(np.argmax(proba))
+                confidence = float(max(proba) * 100)
+            # xgboost.Booster
+            elif isinstance(model, xgb.Booster):
+                dmat = xgb.DMatrix(arr)
+                preds = model.predict(dmat)  # returns probability for binary
+                prob = float(preds[0])
+                prediction = 1 if prob >= 0.5 else 0
+                confidence = prob * 100
+            # sklearn-like regressors or other
             else:
+                prediction = int(model.predict(arr)[0])
                 confidence = 95.0
-        
-        prediction_label = 'CONFIRMED EXOPLANET' if prediction == 1 else 'FALSE POSITIVE'
-        
-        return prediction_label, round(confidence, 2)
-    
+
+        label = 'CONFIRMED EXOPLANET' if prediction == 1 else 'FALSE POSITIVE'
+        return label, round(confidence, 2)
     except Exception as e:
         print(f"Prediction error: {e}")
         return 'ERROR', 0.0
-
 
 @app.route('/api/sample_prediction', methods=['GET'])
 def sample_prediction():
@@ -284,6 +319,25 @@ def internal_error(error):
     return render_template('index.html', 
                            result='ERROR: Server error occurred', 
                            confidence=None), 500
+
+@app.route('/api/metrics', methods=['GET'])
+def api_metrics():
+    """Return saved evaluation metrics and best params."""
+    if not metrics:
+        return jsonify({'error': 'metrics not found'}), 404
+    return jsonify(metrics)
+
+@app.route('/download_model', methods=['GET'])
+def download_model():
+    """Download the model file (joblib preferred, fallback to JSON or pickle)."""
+    if os.path.exists(MODEL_JOBLIB):
+        return send_file(MODEL_JOBLIB, as_attachment=True)
+    if os.path.exists(MODEL_JSON):
+        return send_file(MODEL_JSON, as_attachment=True)
+    legacy_path = 'models/exoplanet_classifier.pkl'
+    if os.path.exists(legacy_path):
+        return send_file(legacy_path, as_attachment=True)
+    return jsonify({'error': 'model file not found'}), 404
 
 
 if __name__ == '__main__':
