@@ -1,8 +1,8 @@
-// static/js/app.js
+// 
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Hero Image Scroll Effect ---
+    // --- Hero Image Scroll Effect
     const heroImage = document.getElementById('hero-image-zoom');
     const heroSection = document.getElementById('hero-image-section');
     

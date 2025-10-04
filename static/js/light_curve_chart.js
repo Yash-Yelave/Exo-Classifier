@@ -1,5 +1,5 @@
 /*
- * Dedicated JavaScript for fetching data and rendering the Chart.js Light Curve Graph.
+
  */
 
 // We skip the initial DOMContentLoaded fetch, as app.js handles the first load

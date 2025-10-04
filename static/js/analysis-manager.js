@@ -1,4 +1,4 @@
-// static/js/analysis-manager.js
+//
 
 (function() {
     // This self-invoking function prevents variables from conflicting with other scripts.
