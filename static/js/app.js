@@ -1,8 +1,8 @@
-// 
+// static/js/app.js
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Hero Image Scroll Effect
+    // --- Hero Image Scroll Effect ---
     const heroImage = document.getElementById('hero-image-zoom');
     const heroSection = document.getElementById('hero-image-section');
     
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // --- Sample Data Fill Button (Unchanged) ---
+    // --- Sample Data Fill Button (UPDATED) ---
     createSampleDataButton();
 
     /**
@@ -221,22 +221,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /**
-     * Fill form with sample exoplanet data (Unchanged)
+     * Fill form with sample exoplanet data (UPDATED to use new names)
      */
     function fillSampleData() {
+        // Using the Confirmed sample data, mapped to the new field names
         const sampleData = {
             koi_period: 9.488036,
             koi_duration: 2.783,
             koi_prad: 1.94,
-            koi_depth: 344.6,
-            koi_slogg: 4.467,
-            koi_srad: 0.927,
+            koi_ror: 0.015,         // NEW: Planet-Star Radius Ratio
+            koi_slogg: 4.467,       // Stellar Log g
+            koi_srad: 0.927,        // Stellar Radius
             koi_impact: 0.146,
             koi_insol: 93.59,
             koi_teq: 707.2,
-            koi_score: 0.946,
-            koi_steff: 5778, 
-            koi_model_snr: 67.6, 
+            koi_mass: 0.95,         // NEW: Stellar Mass
+            koi_snr: 67.6,          // NEW: Transit SNR
+            koi_density: 1.50,      // NEW: Stellar Density
             koi_time0bk: 170.538,
             koi_dor: 0.089,
             koi_incl: 89.37

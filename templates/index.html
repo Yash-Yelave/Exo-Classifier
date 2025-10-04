@@ -1,4 +1,3 @@
-<!---->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,15 +44,13 @@
                     <img src="{{ url_for('static', filename='img/logo.jpg') }}" 
                         alt="Exo-Classifier Logo" 
                         class="w-8 h-8 object-contain">
-                        
-                    <span class="text-xl font-bold text-white">Exo-Classifier</span>
+                    <span class="text-xl font-bold text-white">Exo-Classifier
+</span>
                 </div>
                     
                     <div class="hidden md:flex items-center space-x-8">
-                        <!-- <a href="#challenge" class="text-gray-300 hover:text-purple-400 transition">Challenge</a> -->
                         <a href="#demo-section" class="text-purple-400 font-semibold">AI Demo</a>
                         <a href="#data" class="text-gray-300 hover:text-purple-400 transition">Data</a>
-                        <!-- <a href="#resources" class="text-gray-300 hover:text-purple-400 transition">Resources</a> -->
                         <a href="https://github.com/Yash-Yelave/Exo-Classifier.git" class="text-gray-300 hover:text-purple-400 transition">GitHub</a>
                     </div>
                 </div>
@@ -73,9 +70,6 @@
             </p>
             
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <!-- <button class="btn-gradient-primary px-8 py-4 rounded-full text-white font-bold text-lg w-full sm:w-auto">
-                    🚀 Explore Challenge
-                </button> -->
                 <a href="#demo-section" class="px-8 py-4 rounded-full text-white font-bold text-lg border-2 border-purple-400 hover:bg-purple-400/10 transition w-full sm:w-auto">
                     Try AI Demo
                 </a>
@@ -180,11 +174,12 @@
                 <div id="upload-own" class="tab-content hidden">
                     <div class="text-center mb-10">
                         <h3 class="text-2xl text-white font-bold mb-2">Manual Parameter Input</h3>
-                        <p class="text-lg text-gray-400">Enter the 15 Kepler Object of Interest (KOI) parameters below to classify the candidate.</p>
+                        <p class="text-lg text-gray-400">Enter the 15 Exoplanet Candidate parameters below to classify the candidate.</p>
                     </div>
 
                     <form method="POST" action="{{ url_for('predict') }}" id="exoplanet-form">
                         <div class="grid md:grid-cols-3 gap-6 mb-8">
+                            
                             <div>
                                 <label class="block text-gray-300 mb-2 font-semibold">Orbital Period (days)</label>
                                 <input type="number" name="koi_period" step="any" required 
@@ -207,21 +202,21 @@
                             </div>
                             
                             <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Transit Depth (ppm)</label>
-                                <input type="number" name="koi_depth" step="any" required 
+                                <label class="block text-gray-300 mb-2 font-semibold">Planet-Star Radius Ratio (Rp/R⋆)</label>
+                                <input type="number" name="koi_ror" step="any" required 
                                     class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                    placeholder="e.g., 344.6">
+                                    placeholder="e.g., 0.015">
                             </div>
                             
                             <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Log g</label>
+                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Surface Gravity (Log g)</label>
                                 <input type="number" name="koi_slogg" step="any" required 
                                     class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                    placeholder="e.g., 5778">
+                                    placeholder="e.g., 4.467">
                             </div>
                             
                             <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Radius (solar)</label>
+                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Radius (Solar radii)</label>
                                 <input type="number" name="koi_srad" step="any" required 
                                     class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
                                     placeholder="e.g., 0.927">
@@ -235,38 +230,38 @@
                             </div>
                             
                             <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Insolation Flux (Earth)</label>
+                                <label class="block text-gray-300 mb-2 font-semibold">Insolation Flux (Earth Flux)</label>
                                 <input type="number" name="koi_insol" step="any" required 
                                     class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
                                     placeholder="e.g., 93.59">
                             </div>
                             
                             <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Equilibrium Temp (K)</label>
+                                <label class="block text-gray-300 mb-2 font-semibold">Equilibrium Temperature (K)</label>
                                 <input type="number" name="koi_teq" step="any" required 
                                     class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
                                     placeholder="e.g., 707.2">
                             </div>
                             
                             <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">KOI Score</label>
-                                <input type="number" name="koi_score" step="any" required 
+                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Mass (Solar masses)</label>
+                                <input type="number" name="koi_mass" step="any" required 
                                     class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                    placeholder="e.g., 0.946">
+                                    placeholder="e.g., 0.95">
                             </div>
                             
                             <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Transit SNR</label>
-                                <input type="number" name="koi_steff" step="any" required 
+                                <label class="block text-gray-300 mb-2 font-semibold">Transit Signal-to-Noise Ratio (SNR)</label>
+                                <input type="number" name="koi_snr" step="any" required 
                                     class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
                                     placeholder="e.g., 67.6">
                             </div>
                             
                             <div>
-                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Log g (Logarithm of surface gravity)</label>
-                                <input type="number" name="koi_model_snr" step="any" required 
+                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Density (g/cm³)</label>
+                                <input type="number" name="koi_density" step="any" required 
                                     class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                    placeholder="e.g., 4.467">
+                                    placeholder="e.g., 1.50">
                             </div>
                             
                             <div>
@@ -303,7 +298,7 @@
 
         {% if result %}
         <section class="max-w-xl mx-auto px-6 py-12">
-            <div class="content-block {% if result == 'CONFIRMED EXOPLANET' %}bg-emerald-1000/50 border-emerald-500{% elif result == 'FALSE POSITIVE' %}bg-amber-1050/50 border-amber-500{% else %}bg-red-950/50 border-red-500{% endif %} p-8 border-2 result-card">
+            <div class="content-block {% if result == 'CONFIRMED EXOPLANET' %}bg-emerald-900/50 border-emerald-500{% elif result == 'FALSE POSITIVE' %}bg-amber-900/50 border-amber-500{% else %}bg-red-900/50 border-red-500{% endif %} p-8 border-2 result-card">
 
                 <div class="text-center">
                     <h3 class="text-3xl font-bold text-white mb-6">Classification Result</h3>
@@ -332,7 +327,6 @@
         </section>
         {% endif %}
 
-        <!-- Exoplanet Dataset Analysis -->
         <section class="analysis-container">
             <h2 class="section-title">Exoplanet Dataset Analysis</h2>
             <div class="tabs-wrapper">
@@ -406,43 +400,43 @@
                     <span>9,564 records</span>
                 </div>
                 <a href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=cumulative " class="block w-full text-center btn-gradient-primary mt-6 py-3 rounded-lg text-white font-bold opacity-75 hover:opacity-100 transition-opacity">
-                     Access Dataset
+                    Access Dataset
                 </a>
             </div>
 
             <div class="content-block p-6 flex flex-col border-2 border-purple-500 shadow-2xl shadow-purple-500/20">
-                 <div class="flex justify-between items-start mb-4">
+                    <div class="flex justify-between items-start mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10h6M9 14h6"/></svg>
                     <span class="bg-cyan-500/20 text-cyan-300 text-xs font-bold px-3 py-1 rounded-full">Active Mission</span>
                 </div>
                 <h4 class="text-xl font-bold text-white mb-2">TESS Objects of Interest (TOI)</h4>
                 <p class="text-gray-400 text-sm leading-relaxed flex-grow">
-                   All confirmed exoplanets, candidates, and false positives identified by the TESS mission.
+                    All confirmed exoplanets, candidates, and false positives identified by the TESS mission.
                 </p>
                 <div class="flex justify-between items-end text-sm text-gray-500 mt-4">
                     <span>Size: 3.8 TB</span>
                     <span>7,089 records</span>
                 </div>
                 <a href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=TOI " class="block w-full text-center btn-gradient-primary mt-6 py-3 rounded-lg text-white font-bold">
-                     Access Dataset
+                    Access Dataset
                 </a>
             </div>
 
             <div class="content-block p-6 flex flex-col">
-                 <div class="flex justify-between items-start mb-4">
+                    <div class="flex justify-between items-start mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10h6M9 14h6"/></svg>
                     <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full">Extended Mission</span>
                 </div>
                 <h4 class="text-xl font-bold text-white mb-2">K2 Planets and Candidates</h4>
                 <p class="text-gray-400 text-sm leading-relaxed flex-grow">
-                   Complete dataset from the K2 extended mission including confirmed planets and candidates.
+                    Complete dataset from the K2 extended mission including confirmed planets and candidates.
                 </p>
                 <div class="flex justify-between items-end text-sm text-gray-500 mt-4 pt-4 border-t border-white/10">
                     <span>Size: 2.1 TB</span>
                     <span>1,989 records</span>
                 </div>
                 <a href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=k2pandc " class="block w-full text-center btn-gradient-primary mt-6 py-3 rounded-lg text-white font-bold opacity-75 hover:opacity-100 transition-opacity">
-                     Access Dataset
+                    Access Dataset
                 </a>
             </div>
         </div>
@@ -464,23 +458,23 @@
                     </div>
                 </div>
                 <a href="https://www.researchgate.net/publication/317590813_Searching_for_Exoplanets_Using_Artificial_Intelligence" class="block w-full text-center btn-gradient-secondary mt-6 py-2.5 rounded-lg text-white font-semibold text-sm">
-                     Read Paper
+                    Read Paper
                 </a>
             </div>
 
-             <div class="content-block p-6 flex flex-col">
-                 <div class="flex items-start gap-4 flex-grow">
+            <div class="content-block p-6 flex flex-col">
+                    <div class="flex items-start gap-4 flex-grow">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-400 flex-shrink-0 mt-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
                     <div>
                         <h4 class="text-lg font-bold text-white mb-2">Assessment of Ensemble-Based Machine Learning for Exoplanet Identification</h4>
                         <p class="text-gray-400 text-sm mb-4 leading-relaxed">
-                           Analysis of ensemble techniques and pre-processing methods for high accuracy classification.
+                            Analysis of ensemble techniques and pre-processing methods for high accuracy classification.
                         </p>
                         <p class="text-xs text-gray-500">Various Authors • 2023</p>
                     </div>
                 </div>
                 <a href="https://academic.oup.com/mnras/article/513/4/5505/6472249?login=false" class="block w-full text-center btn-gradient-secondary mt-6 py-2.5 rounded-lg text-white font-semibold text-sm">
-                     Read Paper
+                    Read Paper
                 </a>
             </div>
         </div>
@@ -524,9 +518,9 @@
             </div>
 
             <div>
-                 <div class="flex items-center mb-3">
+                    <div class="flex items-center mb-3">
                     <div class="bg-purple-500/20 p-2 rounded-lg mr-3">
-                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-300" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-300" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                         </svg>
                     </div>

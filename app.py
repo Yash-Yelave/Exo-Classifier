@@ -69,42 +69,42 @@ model = load_model()
 metrics = load_metrics()
 
 
-# --- Sample Feature Data for API Demo ---
-# These are dummy inputs that represent typical values for each case.
+# --- Sample Feature Data for API Demo (UPDATED MAPPING) ---
+# [Period, Duration, R_prad, R_ror, Log_g, R_srad, Impact, Insol, Teq, Mass, SNR, Density, Epoch, SMA, Inclination]
 SAMPLE_CONFIRMED_DATA = [
-    9.488036,   # koi_period (days)
-    2.783,      # koi_duration (hrs)
-    1.94,       # koi_prad (Earth radii)
-    344.6,      # koi_depth (ppm)
-    4.467,      # koi_slogg 
-    0.927,      # koi_srad 
-    0.146,      # koi_impact 
-    93.59,      # koi_insol 
-    707.2,      # koi_teq 
-    0.946,      # koi_score 
-    67.6,       # koi_steff 
-    4.467,      # koi_model_snr
-    170.538,    # koi_time0bk 
-    0.089,      # koi_dor
-    89.37       # koi_incl
+    9.488036,   # 1. Period (days)
+    2.783,      # 2. Duration (hrs)
+    1.94,       # 3. Planet Radius (R_Earth)
+    0.015,      # 4. Planet/Star Radius Ratio (koi_ror) - Mapped from koi_depth
+    4.467,      # 5. Stellar Log g
+    0.927,      # 6. Stellar Radius (R_Sun)
+    0.146,      # 7. Impact Parameter
+    93.59,      # 8. Insolation Flux (S_Earth)
+    707.2,      # 9. Equilibrium Temp (K)
+    0.95,       # 10. Stellar Mass (M_Sun) - Mapped from koi_score
+    67.6,       # 11. Transit SNR - Mapped from koi_steff
+    1.50,       # 12. Stellar Density (g/cm^3) - Mapped from koi_model_snr
+    170.538,    # 13. Transit Epoch (BJD)
+    0.089,      # 14. Semi-Major Axis (AU)
+    89.37       # 15. Inclination (degrees)
 ]
 
 SAMPLE_FALSE_POSITIVE_DATA = [
-    3.5224,     # koi_period (days)
-    1.082,      # koi_duration (hrs)
-    0.85,       # koi_prad (Earth radii)
-    55.1,       # koi_depth (ppm) - Very shallow dip
-    4.550,      # koi_slogg
-    0.851,      # koi_srad
-    0.950,      # koi_impact
-    1200.0,     # koi_insol
-    1000.0,     # koi_teq
-    0.051,      # koi_score - Low score
-    12.2,       # koi_steff 
-    4.550,      # koi_model_snr
-    132.890,    # koi_time0bk
-    0.045,      # koi_dor
-    85.12       # koi_incl
+    3.5224,     # 1. Period (days)
+    1.082,      # 2. Duration (hrs)
+    0.85,       # 3. Planet Radius (R_Earth)
+    0.005,      # 4. Planet/Star Radius Ratio (koi_ror) - Mapped from koi_depth
+    4.550,      # 5. Stellar Log g
+    0.851,      # 6. Stellar Radius (R_Sun)
+    0.950,      # 7. Impact Parameter
+    1200.0,     # 8. Insolation Flux (S_Earth)
+    1000.0,     # 9. Equilibrium Temp (K)
+    0.80,       # 10. Stellar Mass (M_Sun) - Mapped from koi_score
+    12.2,       # 11. Transit SNR - Mapped from koi_steff
+    2.00,       # 12. Stellar Density (g/cm^3) - Mapped from koi_model_snr
+    132.890,    # 13. Transit Epoch (BJD)
+    0.045,      # 14. Semi-Major Axis (AU)
+    85.12       # 15. Inclination (degrees)
 ]
 
 
@@ -115,10 +115,11 @@ def predict_exoplanet(features):
     """
     try:
         if model is None:
-            # fallback mock prediction
-            period = features[0] if len(features) > 0 else 0
-            depth = features[3] if len(features) > 3 else 0
-            if depth > 100 and period > 5:
+            # fallback mock prediction based on R_ror (index 3) and SNR (index 10)
+            ror = features[3] if len(features) > 3 else 0
+            snr = features[10] if len(features) > 10 else 0
+            
+            if ror > 0.01 and snr > 50:
                 confidence = np.random.uniform(90, 99)
                 prediction = 1
             else:
@@ -178,7 +179,6 @@ def sample_prediction():
 @app.route('/')
 def index():
     """Render the main page"""
-    # Clear result if we are navigating back to index without a form submission result
     result = request.args.get('result')
     confidence = request.args.get('confidence')
     return render_template('index.html', result=result, confidence=confidence)
@@ -186,22 +186,22 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    """Handle prediction requests"""
+    """Handle prediction requests (UPDATED FEATURE MAPPING)"""
     try:
-        # Extract 15 features from form (koi_period, koi_duration, etc.)
+        # UPDATED: Mapping the new form field names to the 15 required feature indices.
         features = [
             float(request.form.get('koi_period', 0)),
             float(request.form.get('koi_duration', 0)),
             float(request.form.get('koi_prad', 0)),
-            float(request.form.get('koi_depth', 0)),
+            float(request.form.get('koi_ror', 0)),        # Mapped to old koi_depth index 3
             float(request.form.get('koi_slogg', 0)),
             float(request.form.get('koi_srad', 0)),
             float(request.form.get('koi_impact', 0)),
             float(request.form.get('koi_insol', 0)),
             float(request.form.get('koi_teq', 0)),
-            float(request.form.get('koi_score', 0)),
-            float(request.form.get('koi_steff', 0)),
-            float(request.form.get('koi_model_snr', 0)),
+            float(request.form.get('koi_mass', 0)),       # Mapped to old koi_score index 9
+            float(request.form.get('koi_snr', 0)),        # Mapped to old koi_steff index 10
+            float(request.form.get('koi_density', 0)),    # Mapped to old koi_model_snr index 11
             float(request.form.get('koi_time0bk', 0)),
             float(request.form.get('koi_dor', 0)),
             float(request.form.get('koi_incl', 0))
@@ -228,7 +228,6 @@ def predict():
 def light_curve_data():
     """
     API endpoint to generate and serve simulated light curve data (Time vs. Normalized Flux).
-    Accepts 'type' parameter: 'confirmed' or 'false_positive'.
     """
     curve_type = request.args.get('type', 'confirmed') 
     
@@ -272,9 +271,6 @@ def light_curve_data():
         'transit_end': end_dip
     })
 
-# =========================================================
-# NEW API ENDPOINT FOR ANALYSIS CHARTS
-# =========================================================
 @app.route('/api/analysis_data')
 def analysis_data():
     """
@@ -289,12 +285,11 @@ def analysis_data():
     # 2. Data for "Feature Importance" Chart
     # (Mock scores representing how much each feature contributes to the prediction)
     feature_importance = {
-        'labels': ['koi_score', 'koi_fpflag_ss', 'koi_depth', 'koi_prad', 'koi_duration', 'koi_impact', 'koi_steff'],
+        'labels': ['R_ror', 'SNR', 'R_prad', 'Log g', 'Mass', 'Insol', 'Period'],
         'data': [0.95, 0.91, 0.86, 0.75, 0.68, 0.61, 0.55]
     }
     
     # 3. Data for "Model Performance" Chart (Confusion Matrix values)
-    # [True Negative, False Positive, False Negative, True Positive]
     model_performance = {
         'labels': ['True Negative', 'False Positive', 'False Negative', 'True Positive'],
         'data': [4102, 120, 250, 4850] # Represents TN, FP, FN, TP
