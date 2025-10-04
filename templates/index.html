@@ -3,63 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exoplanet.AI - Hunting for Exoplanets with AI</title>
+    <title>Exo-Classifier - Hunting for Exoplanets with AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chart_styles.css') }}">
+    
 </head>
 <body>
-    <!-- Starry Background -->
     <div class="stars">
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
     </div>
 
-    <!-- Content Wrapper -->
     <div class="content-wrapper">
-        <!-- Sticky Header -->
         <header class="sticky top-0 z-50 backdrop-blur-md bg-purple-950/30 border-b border-purple-500/20">
             <nav class="max-w-7xl mx-auto px-6 py-4">
                 <div class="flex items-center justify-between">
-                    <!-- Logo -->
                     <div class="flex items-center space-x-2">
                         <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <circle cx="12" cy="12" r="3" stroke-width="2"/>
                             <circle cx="12" cy="12" r="8" stroke-width="1.5" stroke-dasharray="2 4"/>
                             <circle cx="12" cy="12" r="10" stroke-width="1" opacity="0.5"/>
                         </svg>
-                        <span class="text-xl font-bold text-white">Exoplanet.AI</span>
+                        <span class="text-xl font-bold text-white">Exo-Classifier
+</span>
                     </div>
                     
-                    <!-- Navigation Links -->
                     <div class="hidden md:flex items-center space-x-8">
                         <a href="#challenge" class="text-gray-300 hover:text-purple-400 transition">Challenge</a>
-                        <a href="#demo-form" class="text-purple-400 font-semibold">AI Demo</a>
+                        <a href="#demo-section" class="text-purple-400 font-semibold">AI Demo</a>
                         <a href="#data" class="text-gray-300 hover:text-purple-400 transition">Data</a>
                         <a href="#resources" class="text-gray-300 hover:text-purple-400 transition">Resources</a>
                         <a href="https://github.com/Yash-Yelave/Exo-Classifier.git" class="text-gray-300 hover:text-purple-400 transition">GitHub</a>
                     </div>
-
                 </div>
             </nav>
         </header>
 
-        <!-- Hero Section -->
         <section class="max-w-5xl mx-auto px-6 py-20 text-center">
             <h1 class="text-6xl md:text-7xl font-extrabold gradient-text mb-6">
                 A World Away
@@ -72,21 +60,18 @@
                 Train AI models to detect exoplanets from stellar light curves and join the search for life beyond Earth.
             </p>
             
-            <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button class="btn-gradient-primary px-8 py-4 rounded-full text-white font-bold text-lg w-full sm:w-auto">
                     🚀 Explore Challenge
                 </button>
-                <a href="#demo-form" class="px-8 py-4 rounded-full text-white font-bold text-lg border-2 border-purple-400 hover:bg-purple-400/10 transition w-full sm:w-auto">
+                <a href="#demo-section" class="px-8 py-4 rounded-full text-white font-bold text-lg border-2 border-purple-400 hover:bg-purple-400/10 transition w-full sm:w-auto">
                     Try AI Demo
                 </a>
             </div>
         </section>
 
-        <!-- Feature Cards Section -->
         <section class="max-w-6xl mx-auto px-6 py-16">
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
                 <div class="card-hover bg-purple-900/30 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
                     <div class="flex justify-center mb-4">
                         <svg class="w-16 h-16 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,7 +85,6 @@
                     </p>
                 </div>
 
-                <!-- Card 2 -->
                 <div class="card-hover bg-purple-900/30 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
                     <div class="flex justify-center mb-4">
                         <svg class="w-16 h-16 text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,7 +97,6 @@
                     </p>
                 </div>
 
-                <!-- Card 3 -->
                 <div class="card-hover bg-purple-900/30 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
                     <div class="flex justify-center mb-4">
                         <svg class="w-16 h-16 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,146 +111,192 @@
             </div>
         </section>
 
-        <!-- AI Demo Section -->
-        <section id="demo-form" class="max-w-5xl mx-auto px-6 py-20">
+        <section id="demo-section" class="max-w-5xl mx-auto px-6 py-20">
             <div class="text-center mb-12">
                 <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
                     🌌 Try the Exo-Classifier AI Demo
                 </h2>
                 <p class="text-xl text-gray-300">
-                    Enter stellar transit parameters to classify exoplanet candidates
+                    Visualize light curves and classify exoplanet candidates
                 </p>
             </div>
 
-            <!-- Prediction Form -->
             <div class="bg-purple-900/30 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
-                <form method="POST" action="{{ url_for('predict') }}" id="exoplanet-form">
-                    <div class="grid md:grid-cols-3 gap-6 mb-8">
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Orbital Period (days)</label>
-                            <input type="number" name="koi_period" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 9.488036">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Transit Duration (hrs)</label>
-                            <input type="number" name="koi_duration" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 2.783">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Planet Radius (Earth radii)</label>
-                            <input type="number" name="koi_prad" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 1.94">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Transit Depth (ppm)</label>
-                            <input type="number" name="koi_depth" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 344.6">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Stellar Temperature (K)</label>
-                            <input type="number" name="koi_slogg" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 5778">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Stellar Radius (solar)</label>
-                            <input type="number" name="koi_srad" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 0.927">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Impact Parameter</label>
-                            <input type="number" name="koi_impact" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 0.146">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Insolation Flux (Earth)</label>
-                            <input type="number" name="koi_insol" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 93.59">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Equilibrium Temp (K)</label>
-                            <input type="number" name="koi_teq" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 707.2">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">KOI Score</label>
-                            <input type="number" name="koi_score" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 0.946">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Transit SNR</label>
-                            <input type="number" name="koi_steff" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 67.6">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Stellar Log g</label>
-                            <input type="number" name="koi_model_snr" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 4.467">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Transit Epoch (BJD)</label>
-                            <input type="number" name="koi_time0bk" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 170.538">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Semi-Major Axis (AU)</label>
-                            <input type="number" name="koi_dor" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 0.089">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-gray-300 mb-2 font-semibold">Inclination (degrees)</label>
-                            <input type="number" name="koi_incl" step="any" required 
-                                   class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
-                                   placeholder="e.g., 89.37">
-                        </div>
-                    </div>
+                <div class="flex border-b border-purple-500/30 mb-8 tab-header">
+                    <button class="tab-button tab-active" data-tab="sample-data">
+                        Sample Data
+                    </button>
+                    <button class="tab-button" data-tab="upload-own">
+                        Upload Your Own
+                    </button>
+                </div>
+
+                <div id="sample-data" class="tab-content block">
+                    <h3 class="text-xl text-white font-semibold mb-4">Select a Sample Light Curve:</h3>
                     
-                    <div class="text-center">
-                        <button type="submit" class="btn-gradient-secondary px-10 py-4 rounded-full text-white font-bold text-lg">
-                            🔬 Analyze Transit
-                        </button>
+                    <div class="grid grid-cols-2 gap-4 mb-10">
+                        <div class="sample-card selected" data-type="confirmed" data-sample-name="KOI-123.01">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                <span class="text-lg font-bold text-emerald-300">Confirmed Exoplanet</span>
+                            </div>
+                            <p class="text-sm text-gray-400">KOI-123.01 - Regular, deep transit signature</p>
+                        </div>
+                        
+                        <div class="sample-card" data-type="false_positive" data-sample-name="KOI-456.02">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"/></svg>
+                                <span class="text-lg font-bold text-amber-300">False Positive</span>
+                            </div>
+                            <p class="text-sm text-gray-400">KOI-456.02 - Irregular noise pattern/shallow dip</p>
+                        </div>
                     </div>
-                </form>
+
+                    <div id="sample-result-display" class="mb-12">
+                        </div>
+                    
+                    <div id="light-curve-section" class="max-w-6xl mx-auto">
+                        <div id="lightCurveChartContainer" class="chart-container-card">
+                            <h2 class="chart-title">Light Curve Data (KOI-123.01)</h2>
+                            <canvas id="lightCurveChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="upload-own" class="tab-content hidden">
+                    <div class="text-center mb-10">
+                        <h3 class="text-2xl text-white font-bold mb-2">Manual Parameter Input</h3>
+                        <p class="text-lg text-gray-400">Enter the 15 Kepler Object of Interest (KOI) parameters below to classify the candidate.</p>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('predict') }}" id="exoplanet-form">
+                        <div class="grid md:grid-cols-3 gap-6 mb-8">
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Orbital Period (days)</label>
+                                <input type="number" name="koi_period" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 9.488036">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Transit Duration (hrs)</label>
+                                <input type="number" name="koi_duration" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 2.783">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Planet Radius (Earth radii)</label>
+                                <input type="number" name="koi_prad" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 1.94">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Transit Depth (ppm)</label>
+                                <input type="number" name="koi_depth" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 344.6">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Log g</label>
+                                <input type="number" name="koi_slogg" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 5778">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Radius (solar)</label>
+                                <input type="number" name="koi_srad" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 0.927">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Impact Parameter</label>
+                                <input type="number" name="koi_impact" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 0.146">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Insolation Flux (Earth)</label>
+                                <input type="number" name="koi_insol" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 93.59">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Equilibrium Temp (K)</label>
+                                <input type="number" name="koi_teq" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 707.2">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">KOI Score</label>
+                                <input type="number" name="koi_score" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 0.946">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Transit SNR</label>
+                                <input type="number" name="koi_steff" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 67.6">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Stellar Log g (Logarithm of surface gravity)</label>
+                                <input type="number" name="koi_model_snr" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 4.467">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Transit Epoch (BJD)</label>
+                                <input type="number" name="koi_time0bk" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 170.538">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Semi-Major Axis (AU)</label>
+                                <input type="number" name="koi_dor" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 0.089">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-300 mb-2 font-semibold">Inclination (degrees)</label>
+                                <input type="number" name="koi_incl" step="any" required 
+                                    class="input-cosmic w-full px-4 py-3 rounded-lg text-white" 
+                                    placeholder="e.g., 89.37">
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn-gradient-secondary px-10 py-4 rounded-full text-white font-bold text-lg">
+                                🔬 Analyze Transit
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </section>
 
-        <!-- Prediction Result Section -->
         {% if result %}
         <section class="max-w-xl mx-auto px-6 py-12">
-            <div class="{% if result == 'CONFIRMED EXOPLANET' %}bg-emerald-900/50 border-emerald-500{% else %}bg-amber-900/50 border-amber-500{% endif %} backdrop-blur-sm rounded-2xl p-8 border-2 result-card">
+            <div class="{% if result == 'CONFIRMED EXOPLANET' %}bg-emerald-900/50 border-emerald-500{% elif result == 'FALSE POSITIVE' %}bg-amber-900/50 border-amber-500{% else %}bg-red-900/50 border-red-500{% endif %} backdrop-blur-sm rounded-2xl p-8 border-2 result-card">
                 <div class="text-center">
                     <h3 class="text-3xl font-bold text-white mb-6">Classification Result</h3>
                     
                     <div class="mb-6">
                         <p class="text-gray-300 text-lg mb-2">Prediction:</p>
-                        <p class="text-4xl font-extrabold {% if result == 'CONFIRMED EXOPLANET' %}text-emerald-300{% else %}text-amber-300{% endif %}">
+                        <p class="text-4xl font-extrabold {% if result == 'CONFIRMED EXOPLANET' %}text-emerald-300{% elif result == 'FALSE POSITIVE' %}text-amber-300{% else %}text-red-400{% endif %}">
                             {{ result }}
                         </p>
                     </div>
@@ -288,17 +317,16 @@
             </div>
         </section>
         {% endif %}
-
-        <!-- Footer -->
+        
         <footer class="max-w-7xl mx-auto px-6 py-12 mt-20 border-t border-purple-500/20">
             <div class="text-center text-gray-400">
-                <p class="mb-2">Powered by NASA Kepler Mission Data & Machine Learning</p>
-                <p class="text-sm">© 2025 Exoplanet.AI - Exploring Worlds Beyond</p>
+                <p class="mb-2">Team Name : Deep Tech</p>
+                <p class="text-sm">Yash Yelave, Chetana Bhavsar, Dipali Patil, Kavita Patil, Siddhesh Chaudhari</p>
             </div>
         </footer>
     </div>
 
-    <!-- External JavaScript -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/light_curve_chart.js') }}"></script>
 </body>
 </html>

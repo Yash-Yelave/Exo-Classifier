@@ -1,0 +1,34 @@
+/* ---------------------------------------------------- */
+/* Dedicated Styles for the Light Curve Chart Container */
+/* ---------------------------------------------------- */
+
+.chart-container-card {
+    /* Base styling inherited from the card-hover class in style.css */
+    padding: 2rem;
+    border-radius: 1rem;
+    background: rgba(43, 0, 80, 0.4); /* Darker purple background for the chart area */
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.1);
+    
+    /* FIX: Define a maximum height for the container. */
+    /* This constrains the canvas element and prevents infinite stretching. */
+    max-height: 500px; 
+    height: 400px; /* Set a default height */
+    position: relative; /* Necessary for absolute positioning if needed, good practice for canvas parents */
+}
+
+.chart-title {
+    color: #f3e8ff; /* Light white/purple tint */
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Ensure the canvas is fully responsive within its container */
+#lightCurveChart {
+    /* The canvas will now respect the height constraint set on its parent (.chart-container-card) */
+    width: 100% !important;
+    height: 100% !important; /* Set to 100% to fill the new parent height */
+    min-height: 250px;
+}

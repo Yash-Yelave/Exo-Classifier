@@ -33,7 +33,7 @@ body {
     50% { opacity: 1; }
 }
 
-/* Individual Star Positions and Animations */
+/* Individual Star Positions and Animations (Unchanged) */
 .star:nth-child(1) { 
     width: 1px; 
     height: 1px; 
@@ -279,6 +279,53 @@ html {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------- */
+/* NEW: Tab and Sample Card Styles */
+/* ------------------------------------------- */
+
+.tab-button {
+    padding: 0.75rem 1.5rem;
+    color: #9ca3af; /* gray-400 */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-button:hover {
+    color: #d1d5db; /* gray-300 */
+}
+
+.tab-active {
+    color: #a855f7; /* purple-400 */
+    border-bottom-color: #a855f7;
+}
+
+.sample-card {
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 2px solid rgba(168, 85, 247, 0.15); /* Light border */
+    background: rgba(43, 0, 80, 0.4); /* Dark purple background */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sample-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(168, 85, 247, 0.15);
+}
+
+.sample-card.selected {
+    border-color: #34d399; /* emerald-400 */
+    background: rgba(52, 211, 153, 0.1); /* Light green tint */
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
+}
+.sample-card[data-type="false_positive"].selected {
+     border-color: #fbbf24; /* amber-400 */
+     background: rgba(251, 191, 36, 0.1); /* Light amber tint */
+     box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
 }
 
 /* Responsive Adjustments */
