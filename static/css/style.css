@@ -230,7 +230,7 @@ html {
 }
 .sample-card.selected {
     border-color: #34d399; 
-    background: rgba(52, 211, 153, 0.1); 
+    background: rgba(52, 211, 153, 0.1);    
     box-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
 }
 .sample-card[data-type="false_positive"].selected {
