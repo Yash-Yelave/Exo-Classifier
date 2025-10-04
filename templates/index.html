@@ -13,10 +13,9 @@
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chart_styles.css') }}">
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analysis-tabs.css') }}"> 
 </head>
 <body>
-    
     <section id="hero-image-section" class="hero-image-container">
         <div id="hero-image-zoom" class="hero-image-zoom-layer">
             <div class="hero-content">
@@ -47,8 +46,7 @@
                             <circle cx="12" cy="12" r="8" stroke-width="1.5" stroke-dasharray="2 4"/>
                             <circle cx="12" cy="12" r="10" stroke-width="1" opacity="0.5"/>
                         </svg>
-                        <span class="text-xl font-bold text-white">Exo-Classifier
-</span>
+                        <span class="text-xl font-bold text-white">Exo-Classifier</span>
                     </div>
                     
                     <div class="hidden md:flex items-center space-x-8">
@@ -175,7 +173,6 @@
                             <canvas id="lightCurveChart"></canvas>
                         </div>
                     </div>
-
                 </div>
 
                 <div id="upload-own" class="tab-content hidden">
@@ -331,6 +328,44 @@
             </div>
         </section>
         {% endif %}
+
+        <!-- Exoplanet Dataset Analysis -->
+        <section class="analysis-container">
+            <h2 class="section-title">Exoplanet Dataset Analysis</h2>
+            <div class="tabs-wrapper">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="data-exploration">Data Exploration</button>
+                    <button class="tab-btn" data-tab="feature-importance">Feature Importance</button>
+                    <button class="tab-btn" data-tab="model-performance">Model Performance</button>
+                </div>
+
+                <div class="tab-content-wrapper">
+                    <div id="data-exploration" class="tab-pane active">
+                        <h3>Exploring the Cosmic Census</h3>
+                        <p>A count of confirmed exoplanets discovered, categorized by their size relative to Earth.</p>
+                        <div class="chart-canvas-container">
+                            <canvas id="dataExplorationChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="feature-importance" class="tab-pane">
+                        <h3>What Makes a Planet?</h3>
+                        <p>Ranking of stellar and planetary features by their importance in the model's prediction decision.</p>
+                        <div class="chart-canvas-container">
+                            <canvas id="featureImportanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="model-performance" class="tab-pane">
+                        <h3>Classifier Accuracy & Metrics</h3>
+                        <p>A breakdown of the model's test performance, showing correct and incorrect classifications.</p>
+                        <div class="chart-canvas-container">
+                            <canvas id="modelPerformanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         
         <footer class="max-w-7xl mx-auto px-6 py-12 mt-20 border-t border-purple-500/20">
             <div class="text-center text-gray-400">
@@ -342,5 +377,7 @@
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script src="{{ url_for('static', filename='js/light_curve_chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/analysis-manager.js') }}"></script>
+
 </body>
 </html>

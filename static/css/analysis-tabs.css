@@ -1,0 +1,108 @@
+/* =========================
+ANALYSIS SECTION STYLING (COMPACT VERSION)
+============================== */
+.analysis-container {
+    font-family: 'Inter', sans-serif;
+    color: #e0e0e0;
+    padding: 25px 20px; /* REDUCED */
+    max-width: 1200px;
+    margin: 40px auto;
+    border-radius: 12px;
+    background: rgba(18, 18, 38, 0.6);
+    border: 1px solid rgba(136, 71, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 1.75rem; /* REDUCED */
+    font-weight: 600;
+    margin-bottom: 20px; /* REDUCED */
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tabs-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Tab Button Styling */
+.tab-buttons {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 6px;
+    border-radius: 30px;
+    margin-bottom: 20px; /* REDUCED */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn {
+    padding: 8px 20px; /* REDUCED */
+    font-size: 0.9rem; /* REDUCED */
+    font-weight: 500;
+    color: #b0b0b0;
+    background: transparent;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin: 0 5px;
+}
+
+.tab-btn:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    font-weight: 600;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+}
+
+/* Tab Content Styling */
+.tab-content-wrapper {
+    width: 100%;
+    padding: 15px; /* REDUCED */
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.tab-pane {
+    display: none; /* Hide panes by default */
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-pane.active {
+    display: block; /* Show active pane */
+}
+
+.tab-pane h3 {
+    font-size: 1.25rem; /* REDUCED */
+    margin-bottom: 8px; /* REDUCED */
+    color: #fff;
+}
+
+.tab-pane p {
+    font-size: 0.9rem; /* REDUCED */
+    line-height: 1.5; /* REDUCED */
+    color: #c0c0c0;
+    max-width: 800px;
+    margin-bottom: 0;
+}
+
+.chart-canvas-container {
+    position: relative;
+    height: 320px; /* REDUCED - This is the most impactful change */
+    width: 100%;
+    margin-top: 15px; /* REDUCED */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

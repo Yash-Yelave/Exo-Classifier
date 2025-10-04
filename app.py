@@ -237,6 +237,40 @@ def light_curve_data():
         'transit_end': end_dip
     })
 
+# =========================================================
+# NEW API ENDPOINT FOR ANALYSIS CHARTS
+# =========================================================
+@app.route('/api/analysis_data')
+def analysis_data():
+    """
+    API endpoint to serve mock data for the three analysis charts.
+    """
+    # 1. Data for "Data Exploration" Chart (Exoplanet Size Distribution)
+    data_exploration = {
+        'labels': ['Super-Earths', 'Neptune-like', 'Gas Giants', 'Earth-sized', 'Sub-terrans'],
+        'data': [1785, 1892, 1650, 560, 130] 
+    }
+
+    # 2. Data for "Feature Importance" Chart
+    # (Mock scores representing how much each feature contributes to the prediction)
+    feature_importance = {
+        'labels': ['koi_score', 'koi_fpflag_ss', 'koi_depth', 'koi_prad', 'koi_duration', 'koi_impact', 'koi_steff'],
+        'data': [0.95, 0.91, 0.86, 0.75, 0.68, 0.61, 0.55]
+    }
+    
+    # 3. Data for "Model Performance" Chart (Confusion Matrix values)
+    # [True Negative, False Positive, False Negative, True Positive]
+    model_performance = {
+        'labels': ['True Negative', 'False Positive', 'False Negative', 'True Positive'],
+        'data': [4102, 120, 250, 4850] # Represents TN, FP, FN, TP
+    }
+
+    return jsonify({
+        'data_exploration': data_exploration,
+        'feature_importance': feature_importance,
+        'model_performance': model_performance
+    })
+
 
 @app.errorhandler(404)
 def not_found(error):
