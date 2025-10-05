@@ -148,64 +148,58 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!form) return;
         
         const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'text-center mb-8'; // Added more margin-bottom
+        buttonContainer.className = 'text-center mb-8';
         
         const sampleButton = document.createElement('button');
         sampleButton.type = 'button';
         sampleButton.className = 'px-6 py-2 rounded-full border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400/20 transition';
-        
-        // UPDATED: Changed the button text
-        sampleButton.textContent = '🪐 Fill Habitable Zone Candidate Data';
+        sampleButton.textContent = '🪐 Fill Guaranteed Exoplanet Data';
         
         sampleButton.addEventListener('click', fillSampleData);
         buttonContainer.appendChild(sampleButton);
         
         const uploadOwnTab = document.getElementById('upload-own');
         if (uploadOwnTab) {
-            // Inserts the button container before the form element
             uploadOwnTab.insertBefore(buttonContainer, form);
         }
     }
 
     /**
-     * Fills the form with the new sample data for a habitable zone candidate.
+     * Fills the form with a sample guaranteed to be classified as 'CONFIRMED' by our model.
      */
     function fillSampleData() {
         // ===============================================================
-        // UPDATED: This object now contains the new sample data you provided.
+        // UPDATED: This new data is from a real exoplanet that our new model
+        // has been verified to classify correctly with high confidence.
         // ===============================================================
         const sampleData = {
-            koi_period: 289.8623,
-            koi_duration: 7.43,
-            koi_prad: 2.38,
-            koi_ror: 0.021,
-            koi_slogg: 4.44,
-            koi_srad: 0.979,
-            koi_impact: 0.30,
-            koi_insol: 1.11,
-            koi_teq: 295,
-            koi_mass: 0.97,
-            koi_snr: 82.5,
-            koi_density: 1.47,
-            koi_time0bk: 2454966.697,
-            koi_dor: 0.849,
-            koi_incl: 89.764
+            "koi_period": 18.64932728,
+            "koi_duration": 4.4056,
+            "koi_prad": 3.12,
+            "koi_ror": 0.027096,
+            "koi_slogg": 4.405,
+            "koi_srad": 1.053,
+            "koi_impact": 0.08,
+            "koi_insol": 57.13,
+            "koi_teq": 701.0,
+            "koi_mass": 1.026,
+            "koi_snr": 46.1,
+            "koi_density": 1.97596,
+            "koi_time0bk": 174.771,
+            "koi_dor": 33.12,
+            "koi_incl": 89.86
         };
         
-        // This loop fills the form fields
         for (const [key, value] of Object.entries(sampleData)) {
             const input = document.querySelector(`input[name="${key}"]`);
             if (input) {
                 input.value = value;
-                input.style.borderColor = '#a855f7';
-                input.dispatchEvent(new Event('input')); // Ensures any listeners are triggered
+                input.dispatchEvent(new Event('input')); 
             }
         }
     }
 
-    /**
-     * Parallax effect for stars.
-     */
+    /** Parallax effect for stars. */
     function parallaxStars() {
         const scrolled = window.pageYOffset;
         const stars = document.querySelectorAll('.star');
@@ -216,13 +210,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    /**
-     * Adds more stars for a richer background.
-     */
-    function addMoreStars(count = 30) {
+    /** Adds more stars for a richer background. */
+    function addMoreStars(count = 50) {
         const starsContainer = document.querySelector('.stars');
         if (!starsContainer) return;
-        
         for (let i = 0; i < count; i++) {
             const star = document.createElement('div');
             star.className = 'star';
@@ -235,5 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
             starsContainer.appendChild(star);
         }
     }
-    addMoreStars(50); // Increased for a denser starfield
+    addMoreStars(50);
 });
+
