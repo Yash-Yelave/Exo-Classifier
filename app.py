@@ -147,7 +147,7 @@ def predict_exoplanet(features):
         label = 'CONFIRMED EXOPLANET' if prediction == 1 else 'FALSE POSITIVE'
         return label, round(confidence, 2)
     except Exception as e:
-        print(f"Prediction error: {e}")
+        print(f"!!!!!!!! PREDICTION ERROR !!!!!!!!\n{e}\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         return 'ERROR', 0.0
 
 @app.route('/api/sample_prediction', methods=['GET'])
@@ -186,30 +186,33 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    """Handle prediction requests (UPDATED FEATURE MAPPING)"""
     try:
-        # UPDATED: Mapping the new form field names to the 15 required feature indices.
+        # ... (feature extraction code is here) ...
         features = [
             float(request.form.get('koi_period', 0)),
             float(request.form.get('koi_duration', 0)),
             float(request.form.get('koi_prad', 0)),
-            float(request.form.get('koi_ror', 0)),        # Mapped to old koi_depth index 3
+            float(request.form.get('koi_ror', 0)),
             float(request.form.get('koi_slogg', 0)),
             float(request.form.get('koi_srad', 0)),
             float(request.form.get('koi_impact', 0)),
             float(request.form.get('koi_insol', 0)),
             float(request.form.get('koi_teq', 0)),
-            float(request.form.get('koi_mass', 0)),       # Mapped to old koi_score index 9
-            float(request.form.get('koi_snr', 0)),        # Mapped to old koi_steff index 10
-            float(request.form.get('koi_density', 0)),    # Mapped to old koi_model_snr index 11
+            float(request.form.get('koi_mass', 0)),
+            float(request.form.get('koi_snr', 0)),
+            float(request.form.get('koi_density', 0)),
             float(request.form.get('koi_time0bk', 0)),
             float(request.form.get('koi_dor', 0)),
             float(request.form.get('koi_incl', 0))
         ]
-        
-        # Validate features
-        if any(f == 0 for f in features):
-            return redirect(url_for('index', result='ERROR: All fields are required', confidence='0.0'))
+
+         # ================================================
+         # ADD THIS LINE FOR DEBUGGING
+        print(f"DEBUG: Features sent to model: {features}")
+         # ================================================
+
+         # Make prediction
+        prediction_label, confidence = predict_exoplanet(features)
         
         # Make prediction
         prediction_label, confidence = predict_exoplanet(features)
