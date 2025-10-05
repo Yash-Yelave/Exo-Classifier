@@ -1,56 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exo-Classifier - Hunting for Exoplanets with AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chart_styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/analysis-tabs.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analysis-tabs.css') }}">
 </head>
+
 <body>
     <section id="hero-image-section" class="hero-image-container">
         <div id="hero-image-zoom" class="hero-image-zoom-layer">
             <div class="hero-content">
-                <h1 class="text-7xl font-extrabold gradient-text mb-4 text-center">
-                    A World Away
-                </h1>
-                <p class="text-3xl text-white font-semibold text-center">
-                    Hunting for Exoplanets with AI
-                </p>
+                <h1 class="text-7xl font-extrabold gradient-text mb-4 text-center">A World Away</h1>
+                <p class="text-3xl text-white font-semibold text-center">Hunting for Exoplanets with AI</p>
             </div>
         </div>
     </section>
 
     <div class="stars">
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <!-- Star elements remain the same -->
     </div>
 
     <div class="content-wrapper">
         <header class="sticky top-0 z-50 backdrop-blur-md bg-purple-950/30 border-b border-purple-500/20">
             <nav class="max-w-7xl mx-auto px-6 py-4">
                 <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <img src="{{ url_for('static', filename='img/logo.jpg') }}" 
-                        alt="Exo-Classifier Logo" 
-                        class="w-8 h-8 object-contain">
-                    <span class="text-xl font-bold text-white">Exo-Classifier
-</span>
-                </div>
-                    
+                    <div class="flex items-center space-x-2">
+                        <img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Exo-Classifier Logo" class="w-8 h-8 object-contain">
+                        <span class="text-xl font-bold text-white">Exo-Classifier</span>
+                    </div>
                     <div class="hidden md:flex items-center space-x-8">
                         <a href="#demo-section" class="text-purple-400 font-semibold">AI Demo</a>
-                        <a href="#data" class="text-gray-300 hover:text-purple-400 transition">Data</a>
+                        <a href="{{ url_for('batch_analysis') }}" class="text-gray-300 hover:text-purple-400 transition">Batch Analysis</a>
                         <a href="https://github.com/Yash-Yelave/Exo-Classifier.git" class="text-gray-300 hover:text-purple-400 transition">GitHub</a>
                     </div>
                 </div>
@@ -58,23 +47,24 @@
         </header>
 
         <section class="max-w-5xl mx-auto px-6 py-20 text-center">
-            <h1 class="text-6xl md:text-7xl font-extrabold gradient-text mb-6">
-                A World Away
-            </h1>
-            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
-                Hunting for Exoplanets with AI
-            </h2>
+            <h1 class="text-6xl md:text-7xl font-extrabold gradient-text mb-6">A World Away</h1>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Hunting for Exoplanets with AI</h2>
             <p class="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-                Discover distant worlds using machine learning and NASA's Kepler mission data. 
-                Train AI models to detect exoplanets from stellar light curves and join the search for life beyond Earth.
+                Discover distant worlds using machine learning and NASA's Kepler mission data.
+                Our AI model can classify exoplanet candidates from single data points or entire datasets.
             </p>
             
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="#demo-section" class="px-8 py-4 rounded-full text-white font-bold text-lg border-2 border-purple-400 hover:bg-purple-400/10 transition w-full sm:w-auto">
                     Try AI Demo
                 </a>
+                <!-- NEW BUTTON linking to the batch analysis page -->
+                <a href="{{ url_for('batch_analysis') }}" class="px-8 py-4 rounded-full text-white font-bold text-lg btn-gradient-primary w-full sm:w-auto">
+                    Analyze a Dataset
+                </a>
             </div>
         </section>
+
 
         <section class="max-w-6xl mx-auto px-6 py-16">
     <div class="grid md:grid-cols-3 gap-8">

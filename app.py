@@ -1,24 +1,24 @@
-# app.py (Final Version, works with the new compatible model)
+# app.py (Final, Complete Version with All Features and API Routes)
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import numpy as np
 import pandas as pd
 import joblib
 import os
+import io
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here'
 
-# --- POINT THIS TO THE NEW, CORRECT MODEL FILE ---
+# --- POINT THIS TO THE CORRECT MODEL FILE ---
 MODEL_PATH = 'models/exo_classifier_compatible.joblib'
 # -----------------------------------------------------------------
 
 def load_model():
-    """ Loads the compatible model created by the training script. """
+    """ Loads the compatible model. """
     try:
         if not os.path.exists(MODEL_PATH):
             print(f"❌ ERROR: Model file not found at '{MODEL_PATH}'")
-            print("Please run the 'train_compatible_model.py' script first and move the new model to the /models folder.")
             return None
         model = joblib.load(MODEL_PATH)
         print(f"✅ Model loaded successfully from '{MODEL_PATH}'")
@@ -30,47 +30,35 @@ def load_model():
 model = load_model()
 
 def predict_exoplanet(features):
-    """
-    A simple prediction function that works directly with the compatible 15-feature model.
-    """
+    """ Prediction function for a single row of data. """
     try:
-        if model is None: 
-            return 'ERROR: Model not loaded', 0.0
-        
-        # The exact 15 feature names the new model was trained on.
+        if model is None: return 'ERROR: Model not loaded', 0.0
         feature_names = [
             'koi_period', 'koi_duration', 'koi_prad', 'koi_ror', 'koi_slogg',
             'koi_srad', 'koi_impact', 'koi_insol', 'koi_teq', 'koi_smass',
             'koi_model_snr', 'koi_srho', 'koi_time0bk', 'koi_dor', 'koi_incl'
         ]
-        
-        # Create a single-row DataFrame. No more complex logic is needed.
         input_df = pd.DataFrame([features], columns=feature_names)
-        
-        # Get the prediction probabilities.
         proba = model.predict_proba(input_df)[0]
         prediction = int(np.argmax(proba))
         confidence = float(max(proba) * 100)
-        
         label = 'CONFIRMED EXOPLANET' if prediction == 1 else 'FALSE POSITIVE'
         return label, round(confidence, 2)
-
     except Exception as e:
         print(f"!!!!!!!! PREDICTION ERROR !!!!!!!!\n{e}\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         return 'ERROR', 0.0
 
-# --- Flask Routes ---
+# --- Primary Flask Routes ---
 
 @app.route('/')
 def index():
-    """ Renders the main page. """
+    """ Renders the main page for the AI Demo. """
     return render_template('index.html', result=request.args.get('result'), confidence=request.args.get('confidence'))
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    """ Handles the form submission and makes a prediction. """
+    """ Handles the single prediction from the AI Demo form. """
     try:
-        # Collect the 15 features from the form.
         features = [
             float(request.form.get('koi_period')), float(request.form.get('koi_duration')),
             float(request.form.get('koi_prad')), float(request.form.get('koi_ror')),
@@ -86,7 +74,61 @@ def predict():
     except (ValueError, TypeError):
         return redirect(url_for('index', result='ERROR: Invalid input', confidence='0.0'))
 
-# --- API Routes for Front-End Demo (These do not use the real model) ---
+# --- Batch Analysis Routes ---
+
+@app.route('/batch')
+def batch_analysis():
+    """ Renders the initial batch analysis page. """
+    return render_template('batch.html')
+
+@app.route('/predict_batch', methods=['POST'])
+def predict_batch():
+    """ Handles the batch file upload and prediction. """
+    if 'dataset_file' not in request.files:
+        return render_template('batch.html', error="No file was uploaded.")
+    
+    file = request.files['dataset_file']
+    if file.filename == '':
+        return render_template('batch.html', error="No file was selected.")
+
+    if file and model:
+        try:
+            csv_data = io.StringIO(file.stream.read().decode("UTF8"))
+            df = pd.read_csv(csv_data, comment='#')
+            original_headers = df.columns.tolist()
+
+            feature_names = [
+                'koi_period', 'koi_duration', 'koi_prad', 'koi_ror', 'koi_slogg',
+                'koi_srad', 'koi_impact', 'koi_insol', 'koi_teq', 'koi_smass',
+                'koi_model_snr', 'koi_srho', 'koi_time0bk', 'koi_dor', 'koi_incl'
+            ]
+
+            if not all(feature in df.columns for feature in feature_names):
+                missing = [f for f in feature_names if f not in df.columns]
+                return render_template('batch.html', error=f"CSV file is missing required columns: {', '.join(missing)}")
+
+            df_to_predict = df[feature_names]
+            predictions_num = model.predict(df_to_predict)
+            predictions_label = ['CONFIRMED EXOPLANET' if p == 1 else 'FALSE POSITIVE' for p in predictions_num]
+            
+            df['AI_Prediction'] = predictions_label
+
+            stats = {
+                'total': len(df),
+                'confirmed': predictions_label.count('CONFIRMED EXOPLANET'),
+                'false_positive': predictions_label.count('FALSE POSITIVE')
+            }
+
+            results_list = df.to_dict(orient='records')
+            
+            return render_template('batch.html', results=results_list, stats=stats, original_headers=original_headers)
+        except Exception as e:
+            print(f"Error processing batch file: {e}")
+            return render_template('batch.html', error="An error occurred while processing the file. Please ensure it is a valid CSV.")
+            
+    return redirect(url_for('batch_analysis'))
+
+# --- API Routes for Front-End Charts (Restored) ---
 
 @app.route('/api/sample_prediction', methods=['GET'])
 def sample_prediction():
@@ -118,14 +160,14 @@ def light_curve_data():
 
 @app.route('/api/analysis_data')
 def analysis_data():
-    """ Serves MOCK data for the three analysis charts at the bottom. """
+    """ Serves MOCK data for the three analysis charts at the bottom of the main page. """
     data_exploration = {'labels': ['Super-Earths', 'Neptune-like', 'Gas Giants', 'Earth-sized', 'Sub-terrans'], 'data': [1785, 1892, 1650, 560, 130]}
     feature_importance = {'labels': ['R_ror', 'SNR', 'R_prad', 'Log g', 'Mass', 'Insol', 'Period'], 'data': [0.95, 0.91, 0.86, 0.75, 0.68, 0.61, 0.55]}
     model_performance = {'labels': ['True Negative', 'False Positive', 'False Negative', 'True Positive'], 'data': [4102, 120, 250, 4850]}
     return jsonify({'data_exploration': data_exploration, 'feature_importance': feature_importance, 'model_performance': model_performance})
 
+
 if __name__ == '__main__':
     if not os.path.exists('models'):
         os.makedirs('models')
     app.run(debug=True, host='0.0.0.0', port=5000)
-
