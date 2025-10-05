@@ -22,125 +22,125 @@
     </div>
 
     <div class="content-wrapper">
-        <header class="sticky top-0 z-50 backdrop-blur-md bg-purple-950/30 border-b border-purple-500/20">
-            <nav class="max-w-7xl mx-auto px-6 py-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Exo-Classifier Logo" class="w-8 h-8 object-contain">
-                        <span class="text-xl font-bold text-white">Exo-Classifier</span>
-                    </div>
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="{{ url_for('index') }}" class="text-gray-300 hover:text-purple-400 transition">AI Demo</a>
-                        <a href="{{ url_for('batch_analysis') }}" class="text-purple-400 font-semibold">Batch Analysis</a>
-                        <a href="https://github.com/Yash-Yelave/Exo-Classifier.git" class="text-gray-300 hover:text-purple-400 transition">GitHub</a>
-                    </div>
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-purple-950/30 border-b border-purple-500/20">
+        <nav class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Exo-Classifier Logo" class="w-8 h-8 object-contain">
+                    <span class="text-xl font-bold text-white">Exo-Classifier</span>
                 </div>
-            </nav>
-        </header>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ url_for('index') }}" class="text-gray-300 hover:text-purple-400 transition">AI Demo</a>
+                    <a href="{{ url_for('batch_analysis') }}" class="text-purple-400 font-semibold">Batch Analysis</a>
+                    <a href="https://github.com/Yash-Yelave/Exo-Classifier.git" class="text-gray-300 hover:text-purple-400 transition">GitHub</a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-        <main class="max-w-7xl mx-auto px-6 py-12">
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-extrabold gradient-text mb-4">Batch Dataset Analysis</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Upload a CSV file with exoplanet candidates to classify the entire dataset at once.
+                The file must contain the 15 required feature columns for the model to work.
+            </p>
+        </div>
+
+        <!-- Upload Form Section (unchanged) -->
+        <section class="content-block p-8 mb-12">
+            <h2 class="text-3xl font-bold text-white text-center mb-6">Upload Your Dataset</h2>
+            <form action="{{ url_for('predict_batch') }}" method="POST" enctype="multipart/form-data">
+                <div class="flex flex-col items-center">
+                    <label for="dataset_file" class="block text-gray-300 mb-4 font-semibold text-lg">Select a CSV file to upload:</label>
+                    <input type="file" name="dataset_file" id="dataset_file" required accept=".csv"
+                           class="block w-full max-w-md text-sm text-gray-400 file:mr-4 file:py-2 file:px-4
+                                  file:rounded-full file:border-0 file:text-sm file:font-semibold
+                                  file:bg-purple-500/20 file:text-purple-300 hover:file:bg-purple-500/30 cursor-pointer">
+                    <button type="submit" class="btn-gradient-secondary px-10 py-4 rounded-full text-white font-bold text-lg mt-8">
+                        🔬 Analyze Dataset
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Error Display (unchanged) -->
+        {% if error %}
+        <div class="content-block p-6 mb-12 bg-red-900/50 border-red-500 border-2 text-center text-red-300">
+            <p class="font-bold">Error:</p>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Results Section -->
+        {% if results %}
+        <section id="results-section">
             <div class="text-center mb-12">
-                <h1 class="text-5xl font-extrabold gradient-text mb-4">Batch Dataset Analysis</h1>
-                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                    Upload a CSV file with exoplanet candidates to classify the entire dataset at once.
-                    The file must contain the 15 required feature columns for the model to work.
-                </p>
+                <h2 class="text-4xl font-bold text-white">Analysis Results</h2>
             </div>
 
-            <!-- Upload Form Section (unchanged) -->
-            <section class="content-block p-8 mb-12">
-                <h2 class="text-3xl font-bold text-white text-center mb-6">Upload Your Dataset</h2>
-                <form action="{{ url_for('predict_batch') }}" method="POST" enctype="multipart/form-data">
-                    <div class="flex flex-col items-center">
-                        <label for="dataset_file" class="block text-gray-300 mb-4 font-semibold text-lg">Select a CSV file to upload:</label>
-                        <input type="file" name="dataset_file" id="dataset_file" required accept=".csv"
-                               class="block w-full max-w-md text-sm text-gray-400 file:mr-4 file:py-2 file:px-4
-                                      file:rounded-full file:border-0 file:text-sm file:font-semibold
-                                      file:bg-purple-500/20 file:text-purple-300 hover:file:bg-purple-500/30 cursor-pointer">
-                        <button type="submit" class="btn-gradient-secondary px-10 py-4 rounded-full text-white font-bold text-lg mt-8">
-                            🔬 Analyze Dataset
-                        </button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Error Display (unchanged) -->
-            {% if error %}
-            <div class="content-block p-6 mb-12 bg-red-900/50 border-red-500 border-2 text-center text-red-300">
-                <p class="font-bold">Error:</p>
-                <p>{{ error }}</p>
-            </div>
-            {% endif %}
-
-            <!-- Results Section -->
-            {% if results %}
-            <section id="results-section">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-white">Analysis Results</h2>
-                </div>
-
-                <!-- Stats and Graph -->
-                <div class="grid md:grid-cols-2 gap-8 mb-12">
-                    <div class="content-block p-8">
-                        <h3 class="text-2xl font-bold text-white text-center mb-4">Classification Summary</h3>
-                        
-                        <!-- ========================= THE FIX (PART 1) ========================= -->
-                        <!-- Wrap the canvas in a container with a defined height. -->
-                        <!-- This gives Chart.js a stable area to draw in. Tailwind's 'h-80' is 20rem. -->
-                        <div class="relative h-80">
-                            <canvas id="resultsChart"></canvas>
-                        </div>
-                        <!-- ==================================================================== -->
-
-                    </div>
-                    <div class="content-block p-8 flex flex-col justify-center items-center text-center">
-                        <h3 class="text-2xl font-bold text-white mb-4">Statistics</h3>
-                        <p class="text-lg text-gray-300 mb-2">Total Candidates Processed: <span class="font-bold text-white text-2xl">{{ stats.total }}</span></p>
-                        <p class="text-lg text-emerald-300 mb-2">Confirmed Exoplanets Found: <span class="font-bold text-2xl">{{ stats.confirmed }}</span></p>
-                        <p class="text-lg text-amber-300">False Positives Found: <span class="font-bold text-2xl">{{ stats.false_positive }}</span></p>
-                    </div>
-                </div>
-
-                <!-- Results Table (unchanged) -->
+            <!-- Stats and Graph -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
                 <div class="content-block p-8">
-                    <!-- ... table remains the same ... -->
-                </div>
-            </section>
+                    <h3 class="text-2xl font-bold text-white text-center mb-4">Classification Summary</h3>
+                    
+                    <!-- ========================= THE FIX (PART 1) ========================= -->
+                    <!-- Wrap the canvas in a container with a defined height. -->
+                    <!-- This gives Chart.js a stable area to draw in. Tailwind's 'h-80' is 20rem. -->
+                    <div class="relative h-80">
+                        <canvas id="resultsChart"></canvas>
+                    </div>
+                    <!-- ==================================================================== -->
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const ctx = document.getElementById('resultsChart').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Confirmed Exoplanets', 'False Positives'],
-                            datasets: [{
-                                label: 'Classification Count',
-                                data: [{{ stats.confirmed }}, {{ stats.false_positive }}],
-                                backgroundColor: ['rgba(52, 211, 153, 0.7)', 'rgba(251, 191, 36, 0.7)'],
-                                borderColor: ['rgba(18, 18, 38, 0.8)', 'rgba(18, 18, 38, 0.8)'],
-                                borderWidth: 2,
-                                hoverOffset: 8
-                            }]
-                        },
-                        options: {
-                            // ========================= THE FIX (PART 2) =========================
-                            // These options ensure the chart fills the container we just created.
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            // ====================================================================
-                            plugins: {
-                                legend: { 
-                                    position: 'top', 
-                                    labels: { color: '#e0e0e0', font: { size: 14 } } 
-                                }
+                </div>
+                <div class="content-block p-8 flex flex-col justify-center items-center text-center">
+                    <h3 class="text-2xl font-bold text-white mb-4">Statistics</h3>
+                    <p class="text-lg text-gray-300 mb-2">Total Candidates Processed: <span class="font-bold text-white text-2xl">{{ stats.total }}</span></p>
+                    <p class="text-lg text-emerald-300 mb-2">Confirmed Exoplanets Found: <span class="font-bold text-2xl">{{ stats.confirmed }}</span></p>
+                    <p class="text-lg text-amber-300">False Positives Found: <span class="font-bold text-2xl">{{ stats.false_positive }}</span></p>
+                </div>
+            </div>
+
+            <!-- Results Table (unchanged) -->
+            <div class="content-block p-8">
+                <!-- ... table remains the same ... -->
+            </div>
+        </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const ctx = document.getElementById('resultsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Confirmed Exoplanets', 'False Positives'],
+                        datasets: [{
+                            label: 'Classification Count',
+                            data: [{{ stats.confirmed }}, {{ stats.false_positive }}],
+                            backgroundColor: ['rgba(52, 211, 153, 0.7)', 'rgba(251, 191, 36, 0.7)'],
+                            borderColor: ['rgba(18, 18, 38, 0.8)', 'rgba(18, 18, 38, 0.8)'],
+                            borderWidth: 2,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        // ========================= THE FIX (PART 2) =========================
+                        // These options ensure the chart fills the container we just created.
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        // ====================================================================
+                        plugins: {
+                            legend: { 
+                                position: 'top', 
+                                labels: { color: '#e0e0e0', font: { size: 14 } } 
                             }
                         }
-                    });
+                    }
                 });
-            </script>
-            {% endif %}
-        </main>
-    </div>
+            });
+        </script>
+        {% endif %}
+    </main>
+</div>
 </body>
 </html>
