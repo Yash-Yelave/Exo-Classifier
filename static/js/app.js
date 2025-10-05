@@ -137,26 +137,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // --- Sample Data Fill Button ---
-    createSampleDataButton();
+    // --- Sample Data Fill Buttons ---
+    createSampleDataButtons();
 
     /**
-     * Creates and injects the 'Fill Sample Data' button into the form.
+     * Creates and injects the sample data buttons into the form.
      */
-    function createSampleDataButton() {
+    function createSampleDataButtons() {
         const form = document.getElementById('exoplanet-form');
         if (!form) return;
         
         const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'text-center mb-8';
+        buttonContainer.className = 'text-center mb-8 flex flex-col sm:flex-row justify-center items-center gap-4';
         
-        const sampleButton = document.createElement('button');
-        sampleButton.type = 'button';
-        sampleButton.className = 'px-6 py-2 rounded-full border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400/20 transition';
-        sampleButton.textContent = '🪐 Fill Guaranteed Exoplanet Data';
+        // Button 1: Confirmed Exoplanet
+        const exoplanetButton = document.createElement('button');
+        exoplanetButton.type = 'button';
+        exoplanetButton.className = 'px-6 py-2 rounded-full border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400/20 transition';
+        exoplanetButton.textContent = '🪐 Fill Exoplanet Data';
+        exoplanetButton.addEventListener('click', fillExoplanetData);
         
-        sampleButton.addEventListener('click', fillSampleData);
-        buttonContainer.appendChild(sampleButton);
+        // Button 2: False Positive
+        const falsePositiveButton = document.createElement('button');
+        falsePositiveButton.type = 'button';
+        falsePositiveButton.className = 'px-6 py-2 rounded-full border-2 border-amber-400 text-amber-400 font-semibold hover:bg-amber-400/20 transition';
+        falsePositiveButton.textContent = '☀️ Fill Non-Exoplanet Data';
+        falsePositiveButton.addEventListener('click', fillFalsePositiveData);
+        
+        buttonContainer.appendChild(exoplanetButton);
+        buttonContainer.appendChild(falsePositiveButton);
         
         const uploadOwnTab = document.getElementById('upload-own');
         if (uploadOwnTab) {
@@ -165,32 +174,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /**
-     * Fills the form with a sample guaranteed to be classified as 'CONFIRMED' by our model.
+     * Fills the form with a sample guaranteed to be classified as 'CONFIRMED'.
      */
-    function fillSampleData() {
-        // ===============================================================
-        // UPDATED: This new data is from a real exoplanet that our new model
-        // has been verified to classify correctly with high confidence.
-        // ===============================================================
+    function fillExoplanetData() {
         const sampleData = {
-            "koi_period": 18.64932728,
-            "koi_duration": 4.4056,
-            "koi_prad": 3.12,
-            "koi_ror": 0.027096,
-            "koi_slogg": 4.405,
-            "koi_srad": 1.053,
-            "koi_impact": 0.08,
-            "koi_insol": 57.13,
-            "koi_teq": 701.0,
-            "koi_mass": 1.026,
-            "koi_snr": 46.1,
-            "koi_density": 1.97596,
-            "koi_time0bk": 174.771,
-            "koi_dor": 33.12,
-            "koi_incl": 89.86
+            "koi_period": 18.64932728, "koi_duration": 4.4056, "koi_prad": 3.12,
+            "koi_ror": 0.027096, "koi_slogg": 4.405, "koi_srad": 1.053,
+            "koi_impact": 0.08, "koi_insol": 57.13, "koi_teq": 701.0,
+            "koi_mass": 1.026, "koi_snr": 46.1, "koi_density": 1.97596,
+            "koi_time0bk": 174.771, "koi_dor": 33.12, "koi_incl": 89.86
         };
-        
-        for (const [key, value] of Object.entries(sampleData)) {
+        fillForm(sampleData);
+    }
+
+    /**
+     * Fills the form with a sample guaranteed to be classified as 'FALSE POSITIVE'.
+     */
+    function fillFalsePositiveData() {
+        const sampleData = {
+            "koi_period": 0.149, "koi_duration": 8.25, "koi_prad": 16.5,
+            "koi_ror": 0.26, "koi_slogg": 4.39, "koi_srad": 0.88,
+            "koi_impact": 0.02, "koi_insol": 22000, "koi_teq": 2900,
+            "koi_mass": 0.90, "koi_snr": 9.2, "koi_density": 1.62,
+            "koi_time0bk": 2458741.293, "koi_dor": 0.006, "koi_incl": 83.2
+        };
+        fillForm(sampleData);
+    }
+
+    /**
+     * Helper function to populate the form with a given data object.
+     */
+    function fillForm(data) {
+        for (const [key, value] of Object.entries(data)) {
             const input = document.querySelector(`input[name="${key}"]`);
             if (input) {
                 input.value = value;
